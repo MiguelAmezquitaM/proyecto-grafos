@@ -2,9 +2,7 @@ package grafo;
 
 import java.util.Collection;
 
-public interface Grafo<E> {
-    public static final double INF = Double.POSITIVE_INFINITY;
-
+public interface Grafo<E, C> {
     /**
      * Obtener un vertice
      * @param pos Posicion en el cojunto de vertices
@@ -17,7 +15,7 @@ public interface Grafo<E> {
      * @param bPos vertice de llegada
      * @return Costo para "viajar" desde aPos a bPos
      */
-    public double getCosto(int aPos, int bPos);
+    public C getCosto(int aPos, int bPos);
 
     /**
      * Agregar un vertice
@@ -31,7 +29,7 @@ public interface Grafo<E> {
      * @param bPos Vertice de llegada
      * @param costo Costo para "viajar" de aPos a bPos
      */
-    public void addCosto(int aPos, int bPos, double costo);
+    public void addCosto(int aPos, int bPos, C costo);
 
     /**
      * Obtener los sucesores del vertice en la posicion pos

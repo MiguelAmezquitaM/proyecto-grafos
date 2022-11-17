@@ -5,7 +5,7 @@ import java.util.Collection;
 /** 
  * Grafo estatico
  */
-public class GrafoE<E> implements Grafo<E> {
+public class GrafoE<E, C> implements Grafo<E, C> {
 
     @Override
     public E getVertice(int pos) {
@@ -14,9 +14,9 @@ public class GrafoE<E> implements Grafo<E> {
     }
 
     @Override
-    public double getCosto(int aPos, int bPos) {
+    public C getCosto(int aPos, int bPos) {
         // TODO Auto-generated method stub
-        return 0;
+        return null;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class GrafoE<E> implements Grafo<E> {
     }
 
     @Override
-    public void addCosto(int aPos, int bPos, double costo) {
+    public void addCosto(int aPos, int bPos, C costo) {
         // TODO Auto-generated method stub
         
     }

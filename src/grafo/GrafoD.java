@@ -5,9 +5,9 @@ import java.util.Collection;
 
 
 /** Grafo dinamico */
-public class GrafoD<E> implements Grafo<E> {
+public class GrafoD<E, C> implements Grafo<E, C> {
 
-    ArrayList<Vertice<E>> vertices = new ArrayList<>();
+    ArrayList<Vertice<E, C>> vertices = new ArrayList<>();
 
     @Override
     public E getVertice(int pos) {
@@ -15,13 +15,13 @@ public class GrafoD<E> implements Grafo<E> {
     }
 
     @Override
-    public double getCosto(int aPos, int bPos) {
+    public C getCosto(int aPos, int bPos) {
         var a = vertices.get(aPos);
         E b = vertices.get(bPos).dato;
         for (var arista : a) {
             if (arista.dato == b) return arista.costo;
         }
-        return INF;
+        return null;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class GrafoD<E> implements Grafo<E> {
     }
 
     @Override
-    public void addCosto(int aPos, int bPos, double costo) {
+    public void addCosto(int aPos, int bPos, C costo) {
         var ver = vertices.get(aPos);
         ver.addArista(new Arista<>(vertices.get(bPos).dato, costo));
     }
