@@ -1,5 +1,9 @@
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class MainFrame extends JFrame {
     // final private Font mainFont = new Font("Poppins", Font.PLAIN, 18);
