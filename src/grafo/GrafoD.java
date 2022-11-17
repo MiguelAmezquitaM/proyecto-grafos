@@ -1,7 +1,7 @@
 package grafo;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 
 /** Grafo dinamico */
@@ -36,7 +36,7 @@ public class GrafoD<E, C> implements Grafo<E, C> {
     }
 
     @Override
-    public Collection<E> getSucesores(int pos) {
+    public List<E> getSucesores(int pos) {
         ArrayList<E> sucesores = new ArrayList<>();
 
         for (var s : vertices.get(pos)) {

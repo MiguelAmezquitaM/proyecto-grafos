@@ -1,6 +1,6 @@
 package grafo;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface Grafo<E, C> {
     /**
@@ -36,7 +36,7 @@ public interface Grafo<E, C> {
      * @param pos
      * @return colleccion de sucesores
       */
-    public Collection<E> getSucesores(int pos);
+    public List<E> getSucesores(int pos);
 
     /**
      * @return numero de vertices del grafo
