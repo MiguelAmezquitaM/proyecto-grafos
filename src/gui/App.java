@@ -28,8 +28,11 @@ public class App extends JFrame {
 
     public void init() {
         JPanel mainPanel = new JPanel();
+        menu = new Menu(ciudades);
         
         mainPanel.setBackground(Color.black);
+
+        mainPanel.add(menu);
 
         add(mainPanel);
 

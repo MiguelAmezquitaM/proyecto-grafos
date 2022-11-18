@@ -1,6 +1,5 @@
 package gui.components;
 
-import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import datos.Ciudad;
@@ -9,14 +8,21 @@ import grafo.Grafo;
 
 public class Menu extends JPanel {
     private Grafo<Ciudad, Viaje> ciudades;
-    
-    public Menu(Grafo<Ciudad, Viaje> ciudades) {
-        this.ciudades = ciudades;
+
+    private Mapa mapa;
+
+    private SideBar sideBar;
+
+    private void initialize() {
+        mapa = new Mapa();
+        sideBar = new SideBar();
+
+        add(mapa);
+        add(sideBar);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
+    public Menu(Grafo<Ciudad, Viaje> ciudades) {
+        this.ciudades = ciudades;
+        initialize();
     }
 }
