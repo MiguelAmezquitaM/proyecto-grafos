@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 
 import datos.Viaje;
 import gui.Renderable;
+import gui.util.Vector2D;
 
 /**
  *
@@ -50,7 +51,10 @@ public class Arrow implements Renderable {
 
     @Override
     public void draw(Graphics2D g) {
+        Vector2D A = a.getPosition();
+        Vector2D B = a.getPosition();
+        Vector2D AB = B.mines(A);
         g.setColor(Color.white);
-        g.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
-    }   
+        g.drawLine(A.x, A.y, B.x, B.y);
+    }
 }

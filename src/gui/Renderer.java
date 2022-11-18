@@ -1,15 +1,23 @@
 package gui;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-
-public class Renderer extends JPanel {
+public class Renderer {
     ArrayList<Renderable> renderableObjects = new ArrayList<>();
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void add(Renderable obj) {
+        renderableObjects.add(obj);
+    }
+
+    public void remove(Renderable obj) {
+        renderableObjects.remove(obj);
+    }
+
+    public void render(Graphics g) {
+        for (Renderable rd : renderableObjects) {
+            rd.draw((Graphics2D) g);
+        }
     }
 }

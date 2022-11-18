@@ -6,6 +6,7 @@ package gui.renderables;
 
 import datos.Ciudad;
 import gui.Renderable;
+import gui.util.Vector2D;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -15,31 +16,22 @@ import java.awt.Graphics2D;
  * @author Maria Jose Amezquita
  */
 public class Node implements Renderable {
-    private int x, y;
     private Color color;
     private Ciudad ciudad;
+    private Vector2D position;
 
-    public Node(int x, int y, Color color, Ciudad ciudad) {
-        this.x = x;
-        this.y = y;
+    public Node(Vector2D position, Color color, Ciudad ciudad) {
         this.color = color;
         this.ciudad = ciudad;
+        this.position = position;
     }
 
-    public int getX() {
-        return x;
+    public Vector2D getPosition() {
+        return position;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public void setPosition(Vector2D position) {
+        this.position = position;
     }
 
     public Color getColor() {
@@ -61,8 +53,6 @@ public class Node implements Renderable {
     @Override
     public void draw(Graphics2D g) {
         g.setColor(color);
-        g.fillOval(x, y, 50, 50);
+        g.fillOval(position.x, position.y, 50, 50);
     }
-    
-    
 }
