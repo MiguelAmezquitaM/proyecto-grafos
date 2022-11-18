@@ -4,13 +4,16 @@
  */
 package gui;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 import datos.Viaje;
 
 /**
  *
  * @author Maria Jose Amezquita
  */
-public class Arrow {
+public class Arrow implements Renderable {
     private Node a, b;
     private Viaje viaje;
 
@@ -43,6 +46,10 @@ public class Arrow {
     public void setViaje(Viaje viaje) {
         this.viaje = viaje;
     }
-    
-    
+
+    @Override
+    public void draw(Graphics2D g) {
+        g.setColor(Color.white);
+        g.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+    }   
 }

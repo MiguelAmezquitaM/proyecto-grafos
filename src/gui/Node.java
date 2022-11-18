@@ -6,12 +6,13 @@ package gui;
 
 import datos.Ciudad;
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
  *
  * @author Maria Jose Amezquita
  */
-public class Node {
+public class Node implements Renderable {
     private int x, y;
     private Color color;
     private Ciudad ciudad;
@@ -53,6 +54,12 @@ public class Node {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        g.setColor(color);
+        g.fillOval(x, y, 50, 50);
     }
     
     
