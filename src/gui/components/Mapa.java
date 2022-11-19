@@ -1,9 +1,7 @@
 package gui.components;
 
 import javax.swing.JPanel;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 import datos.Ciudad;
 import datos.Viaje;
@@ -38,6 +36,9 @@ public class Mapa extends JPanel {
                 renderer.render(g);
             }
         };
+
+        setPreferredSize(new Dimension(600, 550));
+        mapa.setSize(600, 550);
 
         add(mapa);
     }

@@ -19,8 +19,8 @@ public class Menu extends JPanel {
     private SideBar sideBar;
 
     private void initialize() {
-        mapa = new Mapa(ciudades);
         sideBar = new SideBar();
+        mapa = new Mapa(ciudades);
 
         setBackground(Color.black);
 

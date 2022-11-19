@@ -14,12 +14,11 @@ import grafo.GrafoD;
 import gui.components.Menu;
 
 public class App extends JFrame {
-
-    private Grafo<Ciudad, Viaje> ciudades = new GrafoD<>();
-
     public final int WIDTH = 800;
 
     public final int HEIGHT = 600;
+
+    private Grafo<Ciudad, Viaje> ciudades = new GrafoD<>();
 
     private Menu menu = new Menu(ciudades);
 
@@ -43,7 +42,6 @@ public class App extends JFrame {
         add(mainPanel);
 
         setSize(WIDTH, HEIGHT);
-        setUndecorated(true);
         setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
