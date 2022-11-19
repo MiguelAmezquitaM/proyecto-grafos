@@ -1,6 +1,11 @@
 package gui.components;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import datos.Ciudad;
 import datos.Viaje;
@@ -17,8 +22,15 @@ public class Menu extends JPanel {
         mapa = new Mapa(ciudades);
         sideBar = new SideBar();
 
+        setBackground(Color.black);
+
         add(mapa);
         add(sideBar);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(800, 550);
     }
 
     public Menu(Grafo<Ciudad, Viaje> ciudades) {
