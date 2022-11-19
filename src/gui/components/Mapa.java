@@ -1,45 +1,59 @@
 package gui.components;
 
-import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 import datos.Ciudad;
 import datos.Viaje;
 import grafo.Grafo;
+import gui.Renderable;
 import gui.Renderer;
 import gui.renderables.Node;
 import gui.util.Vector2D;
 
-public class Mapa extends JPanel {
+public class Mapa extends Canvas {
     private Grafo<Ciudad, Viaje> ciudades;
 
     private Renderer renderer = new Renderer();
 
-    private Canvas mapa;
-
     public Mapa(Grafo<Ciudad, Viaje> ciudades) {
         this.ciudades = ciudades;
-        initRenderer();
         initialize();
+        initRenderer();
     }
 
     private void initRenderer() {
         for (int i = 0; i < ciudades.orden(); ++i) {
-            Vector2D pos = new Vector2D((int)(Math.random() * 100), (int)(Math.random() * 100));
-            renderer.add(new Node(pos, Color.green, ciudades.getVertice(i)));
+            int x = (int)(Math.random() * (getWidth() - Node.RAD));
+            int y = (int)(Math.random() * (getHeight() - Node.RAD));
+            Vector2D pos = new Vector2D(x, y);
+            renderer.add(new Node(pos, new Color(209, 242, 235), ciudades.getVertice(i)));
         }
     }
 
+    @Override
+    public void paint(Graphics g) {
+        renderer.render(g);
+    }
+
     private void initialize() {
-        mapa = new Canvas() {
-            public void paint(Graphics g) {
-                renderer.render(g);
-            }
-        };
+        setSize(new Dimension(800, 800));
+        setPreferredSize(new Dimension(800, 800));
+        setLocation(new Point(400, 0));
+        setBackground(new Color(17, 122, 101));
 
-        setPreferredSize(new Dimension(600, 550));
-        mapa.setSize(600, 550);
+        addMouseListener(new MouseListener());
+    }
+}
 
-        add(mapa);
+class MouseListener extends MouseAdapter {
+    private Renderer renderer;
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        for (Renderable node : renderer.r()) {
+            
+        }
     }
 }

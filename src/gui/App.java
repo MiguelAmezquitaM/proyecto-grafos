@@ -1,8 +1,8 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -14,9 +14,9 @@ import grafo.GrafoD;
 import gui.components.Menu;
 
 public class App extends JFrame {
-    public final int WIDTH = 800;
+    public final int WIDTH = 1200;
 
-    public final int HEIGHT = 600;
+    public final int HEIGHT = 800;
 
     private Grafo<Ciudad, Viaje> ciudades = new GrafoD<>();
 
@@ -38,12 +38,16 @@ public class App extends JFrame {
         mainPanel.setBackground(Color.white);
         mainPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
+        mainPanel.setLocation(new Point(0, 0));
+        mainPanel.setLayout(new BoxLayout(mainPanel, 1));
+
         mainPanel.add(menu);
         add(mainPanel);
 
         setSize(WIDTH, HEIGHT);
         setResizable(false);
         setVisible(true);
+        setTitle("Proyecto Grafos");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 

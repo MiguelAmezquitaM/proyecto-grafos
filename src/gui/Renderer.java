@@ -3,6 +3,7 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Renderer {
     ArrayList<Renderable> renderableObjects = new ArrayList<>();
@@ -19,5 +20,9 @@ public class Renderer {
         for (Renderable rd : renderableObjects) {
             rd.draw((Graphics2D) g);
         }
+    }
+
+    public List<Renderable> r() {
+        return renderableObjects;
     }
 }

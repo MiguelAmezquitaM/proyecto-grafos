@@ -20,6 +20,8 @@ public class Node implements Renderable {
     private Ciudad ciudad;
     private Vector2D position;
 
+    public static final int RAD = 50;
+
     public Node(Vector2D position, Color color, Ciudad ciudad) {
         this.color = color;
         this.ciudad = ciudad;
@@ -53,6 +55,6 @@ public class Node implements Renderable {
     @Override
     public void draw(Graphics2D g) {
         g.setColor(color);
-        g.fillOval(position.x, position.y, 50, 50);
+        g.fillOval(position.x, position.y, RAD, RAD);
     }
 }
