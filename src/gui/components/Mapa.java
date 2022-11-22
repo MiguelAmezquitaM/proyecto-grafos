@@ -28,7 +28,7 @@ public class Mapa extends JPanel {
     private void initRenderer() {
         for (int i = 0; i < ciudades.orden(); ++i) {
             Vector2D pos = new Vector2D((int)(Math.random() * 100), (int)(Math.random() * 100));
-            renderer.add(new Node(pos, Color.green, ciudades.getVertice(i)));
+            renderer.add(new Node(pos, Color.green, ciudades.getVertice(i).dato));
         }
     }
 

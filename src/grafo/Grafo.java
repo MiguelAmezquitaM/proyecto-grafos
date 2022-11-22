@@ -8,7 +8,7 @@ public interface Grafo<E, C> {
      * @param pos Posicion en el cojunto de vertices
      * @return el valor del vertice
      */
-    public E getVertice(int pos);
+    public Vertice<E, C> getVertice(int pos);
 
     /**
      * @param aPos vertice de salida
@@ -21,7 +21,7 @@ public interface Grafo<E, C> {
      * Agregar un vertice
      * @param valor valor del vertice
       */
-    public void addVertice(E valor);
+    public void addVertice(E valor, int x, int y);
 
     /**
      * Determinar el costo desde un vertice a otro

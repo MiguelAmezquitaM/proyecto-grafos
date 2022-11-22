@@ -1,12 +1,9 @@
-package grafo;
+/*package grafo;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 
- * Grafo estatico
- */
 public class GrafoE<E, C> implements Grafo<E, C> {
 
     private C[][] costos;
@@ -57,3 +54,4 @@ public class GrafoE<E, C> implements Grafo<E, C> {
     }
     
 }
+*/

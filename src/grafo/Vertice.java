@@ -7,9 +7,13 @@ public class Vertice<E, C> implements Iterable<Arista<E, C>> {
 
     private LinkedList<Arista<E, C>> sucesores = new LinkedList<>();
     public E dato;
+    public int cordX;
+    public int cordY;
 
-    public Vertice(E dato) {
+    public Vertice(E dato, int x, int y) {
         this.dato = dato;
+        this.cordX = x;
+        this.cordY = y;
     }
 
     public void addArista(Arista<E, C> ar) {

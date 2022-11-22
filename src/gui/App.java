@@ -26,8 +26,8 @@ public class App extends JFrame {
     private JPanel mainPanel;
 
     private void initCiudades() {
-        ciudades.addVertice(new Ciudad("Santa Marta", "Colombia"));
-        ciudades.addVertice(new Ciudad("Barranquilla", "Colombia"));
+        ciudades.addVertice(new Ciudad("Santa Marta", "Colombia"), 530, 422);
+        ciudades.addVertice(new Ciudad("Barranquilla", "Colombia"), 300, 200);
     }
 
     public void init() {

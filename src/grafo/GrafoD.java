@@ -10,8 +10,8 @@ public class GrafoD<E, C> implements Grafo<E, C> {
     ArrayList<Vertice<E, C>> vertices = new ArrayList<>();
 
     @Override
-    public E getVertice(int pos) {
-        return vertices.get(pos).dato;
+    public Vertice<E, C> getVertice(int pos) {
+        return vertices.get(pos);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class GrafoD<E, C> implements Grafo<E, C> {
     }
 
     @Override
-    public void addVertice(E valor) {
-        vertices.add(new Vertice<>(valor));
+    public void addVertice(E valor, int x, int y) {
+        vertices.add(new Vertice<>(valor, x ,y));
     }
 
     @Override
