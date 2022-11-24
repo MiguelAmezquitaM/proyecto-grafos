@@ -103,7 +103,6 @@ class MyMouseListener extends MouseAdapter {
     public MyMouseListener(JPanel panel, Grafo<Ciudad, Viaje> grafo) {
         this.grafo = grafo;
         this.panel = panel;
-        g = (Graphics2D) this.panel.getGraphics();
     }
 
     @Override
@@ -136,7 +135,7 @@ class MyMouseListener extends MouseAdapter {
                 }
 
                 grafo.addVertice(new Ciudad(nombre, pais, new Vector2D(evt.getX(), evt.getY())));
-                Lienzo.pintarCirculo(g, nombre, evt.getX(), evt.getY());
+                panel.repaint();
             }
             if (n == 2) {
                 double costo, distancia; int tiempo;
@@ -154,7 +153,7 @@ class MyMouseListener extends MouseAdapter {
                 nodo1 = nodo2 = -1;
                 n = 0;
 
-                panel.paint(g);
+                panel.repaint();
             }
         }
     }
@@ -188,12 +187,12 @@ class MyMouseListener extends MouseAdapter {
             Lienzo.moverCamara(e.getX() - oldMousePosition.x, e.getY() - oldMousePosition.y);
             oldMousePosition.x = e.getX();
             oldMousePosition.y = e.getY();
-            panel.paint(g);
+            panel.repaint();
             return;
         }
 
         selected.setPosition(Lienzo.pos(e.getX(), e.getY()));
-        panel.paint(g);
+        panel.repaint();
     }
 
     @Override
@@ -202,7 +201,7 @@ class MyMouseListener extends MouseAdapter {
         super.mouseWheelMoved(e);
         var rot = e.getPreciseWheelRotation();
         Lienzo.setScale(-0.05 * rot);
-        panel.paint(g);
+        panel.repaint();
         for (int i = 0; i < grafo.orden(); i++) {
             Lienzo.modified.add(i);
         }
