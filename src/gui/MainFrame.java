@@ -5,7 +5,6 @@
 package gui;
 
 import datos.Ciudad;
-import datos.Position;
 import datos.Viaje;
 
 import java.awt.*;
