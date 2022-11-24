@@ -1,7 +1,5 @@
 package gui;
 
-import grafo.Grafo;
-
 import java.awt.*;
 
 public class PopupMenu {
