@@ -43,6 +43,13 @@ public interface Grafo<E, C> {
     void removeVertice(int pos);
 
     /**
+     * Remove arista
+     * @param ver index of vertex from
+     * @param ar index of vertex to
+     */
+    void removeArista(int ver, int ar);
+
+    /**
      * @return numero de vertices del grafo
      */
     int orden();
