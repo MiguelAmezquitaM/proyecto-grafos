@@ -60,7 +60,9 @@ public class Lienzo {
 
     private static double scale = 1.0;
 
-    public static Vector2D getCamera() { return camera; }
+    private static final int RADIO = 30;
+
+    private static int radio = RADIO;
 
     public static void dibujarGrafo(Graphics2D g, Grafo<Ciudad, Viaje> grafo) {
         for (int i = 0; i < grafo.orden(); i++) {
@@ -89,16 +91,16 @@ public class Lienzo {
         x *= scale; y *= scale;
 
         g.setColor(colorCirculo);
-        g.fillOval(x, y, 30, 30);
+        g.fillOval(x, y, radio, radio);
 
         g.setColor(bordeCirculo);
-        g.drawOval(x, y, 30, 30);
+        g.drawOval(x, y, radio, radio);
 
         g.setColor(colorTexto);
         g.setFont(font);
         var strMetrics = g.getFontMetrics();
         var width = strMetrics.stringWidth(nombre);
-        g.drawString(nombre, x + 15 - width / 2, y + 55);
+        g.drawString(nombre, x + radio / 2 - width / 2, y + (int)(radio * 1.7));
     }
 
     private static void pintarFlecha(Graphics2D g, Flecha f) {
@@ -118,10 +120,11 @@ public class Lienzo {
         x1 += camera.x; x2 += camera.x;
         y1 += camera.y; y2 += camera.y;
         x1 *= scale; x2 *= scale;
-        y1 *= scale; y1 *= scale;
+        y1 *= scale; y2 *= scale;
+
         // Hallar el centro del circulo
-        Vector2D B = new Vector2D(x1 + 15, y1 + 15);
-        Vector2D A = new Vector2D(x2 + 15, y2 + 15);
+        Vector2D B = new Vector2D(x1 + radio / 2, y1 + radio / 2);
+        Vector2D A = new Vector2D(x2 + radio / 2, y2 + radio / 2);
 
         // Calcular las flechitas
         // Vertor desde A hasta B
@@ -132,8 +135,8 @@ public class Lienzo {
         Vector2F ABu = new Vector2F((double)AB.x / len, (double)AB.y / len);
 
         // Calculando el punto mas cercano al exterior del circulo
-        A = A.plus(ABu.by(15.0));
-        B = B.mines(ABu.by(15.0));
+        A = A.plus(ABu.by(radio >> 1));
+        B = B.mines(ABu.by(radio >> 1));
 
         g.drawLine(A.x, A.y, B.x, B.y);
 
@@ -146,8 +149,8 @@ public class Lienzo {
                 ABu.x * (-sintetha) + ABu.y * costetha
         );
 
-        r1 = r1.by(15.0);
-        r2 = r2.by(15.0);
+        r1 = r1.by(radio >> 1);
+        r2 = r2.by(radio >> 1);
 
         g.drawLine(A.x, A.y, A.x + r1.x.intValue() , A.y + r1.y.intValue());
         g.drawLine(A.x, A.y, A.x + r2.x.intValue() , A.y + r2.y.intValue());
@@ -172,9 +175,9 @@ public class Lienzo {
         x *= scale; y *= scale;
         g.setColor(co);
         g.setStroke(new BasicStroke(4));
-        g.fillOval(x, y, 30, 30);
+        g.fillOval(x, y, radio, radio);
         g.setColor(Color.black);
-        g.drawOval(x, y, 30, 30);
+        g.drawOval(x, y, radio, radio);
     }
 
     public static void moverCamara(int dx, int dy) {
@@ -184,7 +187,7 @@ public class Lienzo {
     public static int hayCiudadEn(Grafo<Ciudad, Viaje> grafo, int x, int y) {
         var pos = pos(x, y);
 
-        var r = new Rectangle(30, 30);
+        var r = new Rectangle(radio, radio);
 
         for (int i = 0; i < grafo.orden(); i++) {
             var c = grafo.getVertice(i);
@@ -206,8 +209,7 @@ public class Lienzo {
 
     public static void setScale(double ds) {
         scale += ds;
+        radio = (int) (RADIO * scale);
     }
-
-    public static double getScale() { return scale; }
 
 }
