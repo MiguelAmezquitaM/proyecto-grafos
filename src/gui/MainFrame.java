@@ -193,5 +193,8 @@ class MyMouseListener extends MouseAdapter {
         var rot = e.getPreciseWheelRotation();
         Lienzo.setScale(0.05 * rot);
         panel.paint(g);
+        for (int i = 0; i < grafo.orden(); i++) {
+            Lienzo.modified.add(i);
+        }
     }
 }
