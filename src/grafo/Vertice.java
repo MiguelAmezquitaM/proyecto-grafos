@@ -1,9 +1,10 @@
 package grafo;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Vertice<E, C> implements Iterable<Arista<E, C>> {
+public class Vertice<E, C> implements Iterable<Arista<E, C>>, Serializable {
 
     private final LinkedList<Arista<E, C>> sucesores = new LinkedList<>();
     public E dato;

@@ -9,36 +9,34 @@ import datos.Viaje;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.*;
-
 import grafo.Grafo;
 import grafo.GrafoD;
 import gui.util.Vector2D;
-
+import persist.ArchivoProyecto;
 /**
  * @author david
  */
 public class MainFrame extends javax.swing.JFrame {
-
-    private final Grafo<Ciudad, Viaje>  grafo = new GrafoD<>();
+    Grafo<Ciudad, Viaje> grafo = new GrafoD<>();
     /**
      * Creates new form MainFrame
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws FileNotFoundException
      */
-    public MainFrame() {
+    public MainFrame() throws FileNotFoundException, ClassNotFoundException, IOException {
         initComponents();
     }
 
-    private void initComponents() {
-
-        grafo.addVertice(new Ciudad("Santa Marta", "Colombia", new Vector2D(150, 200)));
-        grafo.addVertice(new Ciudad("Barranquilla", "Colombia", new Vector2D(50, 300)));
-        grafo.addVertice(new Ciudad("Valledupar", "Colombia", new Vector2D(190, 400)));
-
-        grafo.addCosto(0, 1, new Viaje(500.0, 48.0, 65));
-        grafo.addCosto(1, 0, new Viaje(500.0, 48.0, 85));
-        grafo.addCosto(1, 2, new Viaje(500.0, 48.0, 47));
-        grafo.addCosto(2, 0, new Viaje(500.0, 48.0, 84));
+    private void initComponents() throws FileNotFoundException, ClassNotFoundException, IOException {
+        ArchivoProyecto archivoProyecto = new ArchivoProyecto();
+        File f = new File("grafo.obj");
+        grafo = f.exists() ? archivoProyecto.read() : grafo;
 
         JPanel canvas = new JPanel() {
             @Override
@@ -62,22 +60,30 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1200, 720);
         setBackground(new Color(19, 141, 117, 255));
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         canvas.setBounds(new Rectangle(0, 0, 1200, 720));
         canvas.setBackground(new java.awt.Color(30, 132, 73, 255));
 
         MouseAdapter ml = new MyMouseListener(canvas, grafo);
+        WindowAdapter w1 = new MyWindowListener(archivoProyecto, grafo);  
         canvas.addMouseListener(ml);
         canvas.addMouseMotionListener(ml);
         canvas.addMouseWheelListener(ml);
-
+        addWindowListener(w1);
         add(canvas);
     }
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-            var f = new MainFrame();
-            f.setVisible(true);
+            JFrame f;
+            try {
+                f = new MainFrame();
+                f.setVisible(true);
+            } catch (ClassNotFoundException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
         });
     }
 }
@@ -151,6 +157,7 @@ class MyMouseListener extends MouseAdapter {
     }
 
     @Override
+    
     public void mousePressed(MouseEvent e) {
         oldMousePosition.x = e.getX(); oldMousePosition.y = e.getY();
         var ci = Lienzo.hayCiudadEn(grafo, e.getX(), e.getY());
@@ -195,6 +202,24 @@ class MyMouseListener extends MouseAdapter {
         panel.paint(g);
         for (int i = 0; i < grafo.orden(); i++) {
             Lienzo.modified.add(i);
+        }
+    }
+}
+
+class MyWindowListener extends WindowAdapter {
+    ArchivoProyecto ar = new ArchivoProyecto();
+    private Grafo<Ciudad,Viaje> grafo;
+    public MyWindowListener(ArchivoProyecto archivoProyecto, Grafo<Ciudad, Viaje> grafo) {
+        this.ar = archivoProyecto;
+        this.grafo = grafo;
+    }
+    @Override
+    public void windowClosed(WindowEvent e){
+        try {
+            ar.write(grafo);
+        } catch (IOException e1) {
+            System.out.println("no se guardo");
+            e1.printStackTrace();
         }
     }
 }

@@ -1,6 +1,8 @@
 package gui.util;
 
-public class Vector2F {
+import java.io.Serializable;
+
+public class Vector2F implements Serializable {
     public Double x, y;
 
     public Vector2F(Double x, Double y) {

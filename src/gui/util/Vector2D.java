@@ -1,6 +1,8 @@
 package gui.util;
 
-public class Vector2D {
+import java.io.Serializable;
+
+public class Vector2D implements Serializable{
     public Integer x, y;
 
     public Vector2D(Integer x, Integer y) {

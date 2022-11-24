@@ -1,5 +1,6 @@
 package grafo;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /** 
  * Grafo estatico
  */
-public class GrafoE<E, C> implements Grafo<E, C> {
+public class GrafoE<E, C> implements Grafo<E, C>, Serializable{
 
     private final C[][] costos;
 

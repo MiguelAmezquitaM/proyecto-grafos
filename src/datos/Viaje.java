@@ -1,6 +1,8 @@
 package datos;
 
-public class Viaje {
+import java.io.Serializable;
+
+public class Viaje implements Serializable{
     private Double costo;
 
     private Double distancia;

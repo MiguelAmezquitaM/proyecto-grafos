@@ -1,11 +1,12 @@
 package grafo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 /** Grafo dinamico */
-public class GrafoD<E, C> implements Grafo<E, C> {
+public class GrafoD<E, C> implements Grafo<E, C>, Serializable{
 
     ArrayList<Vertice<E, C>> vertices = new ArrayList<>();
 

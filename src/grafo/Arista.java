@@ -1,6 +1,8 @@
 package grafo;
 
-public class Arista<E, C> {
+import java.io.Serializable;
+
+public class Arista<E, C> implements Serializable{
     public C costo;
     public E dato;
 

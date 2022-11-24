@@ -1,9 +1,11 @@
 package datos;
 
 
+import java.io.Serializable;
+
 import gui.util.Vector2D;
 
-public class Ciudad {
+public class Ciudad implements Serializable {
     private String nombre;
 
     private String pais;
