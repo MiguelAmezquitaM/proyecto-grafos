@@ -8,20 +8,20 @@ public interface Grafo<E, C> {
      * @param pos Posicion en el cojunto de vertices
      * @return el valor del vertice
      */
-    public E getVertice(int pos);
+    E getVertice(int pos);
 
     /**
      * @param aPos vertice de salida
      * @param bPos vertice de llegada
      * @return Costo para "viajar" desde aPos a bPos
      */
-    public C getCosto(int aPos, int bPos);
+    C getCosto(int aPos, int bPos);
 
     /**
      * Agregar un vertice
      * @param valor valor del vertice
       */
-    public void addVertice(E valor);
+    void addVertice(E valor);
 
     /**
      * Determinar el costo desde un vertice a otro
@@ -29,18 +29,17 @@ public interface Grafo<E, C> {
      * @param bPos Vertice de llegada
      * @param costo Costo para "viajar" de aPos a bPos
      */
-    public void addCosto(int aPos, int bPos, C costo);
+    void addCosto(int aPos, int bPos, C costo);
 
     /**
      * Obtener los sucesores del vertice en la posicion pos
-     * @param pos
      * @return colleccion de sucesores
       */
-    public List<E> getSucesores(int pos);
+    List<E> getSucesores(int pos);
 
     /**
      * @return numero de vertices del grafo
      */
-    public int orden();
+    int orden();
 
 }

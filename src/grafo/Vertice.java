@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class Vertice<E, C> implements Iterable<Arista<E, C>> {
 
-    private LinkedList<Arista<E, C>> sucesores = new LinkedList<>();
+    private final LinkedList<Arista<E, C>> sucesores = new LinkedList<>();
     public E dato;
 
     public Vertice(E dato) {

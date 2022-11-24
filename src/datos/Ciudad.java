@@ -1,13 +1,27 @@
 package datos;
 
+
+import gui.util.Vector2D;
+
 public class Ciudad {
     private String nombre;
 
     private String pais;
 
-    public Ciudad(String nombre, String pais) {
+    private Vector2D position;
+
+    public Ciudad(String nombre, String pais, Vector2D p) {
         this.nombre = nombre;
         this.pais = pais;
+        this.position = p;
+    }
+
+    public Vector2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
     }
 
     public String getNombre() {

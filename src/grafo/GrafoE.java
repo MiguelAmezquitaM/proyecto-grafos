@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class GrafoE<E, C> implements Grafo<E, C> {
 
-    private C[][] costos;
+    private final C[][] costos;
 
-    private List<E> vertices;
+    private final List<E> vertices;
 
     public GrafoE(int maxVertices, List<E> vertices, Class<C> c) {
         @SuppressWarnings("unchecked")
