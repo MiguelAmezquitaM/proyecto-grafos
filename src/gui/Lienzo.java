@@ -149,7 +149,7 @@ public class Lienzo {
         var ABup = new Vector2F(ABu.y, -ABu.x);
         var ABm = new Vector2D(A.x + AB.x / 2, A.y + AB.y / 2);
 
-        var StrPos = new Vector2D(ABm.x + (int)(15.0 * ABup.x), ABm.y + (int)(15.0 * ABup.y));
+        var StrPos = new Vector2D(ABm.x + (int)(25.0 * ABup.x), ABm.y + (int)(25.0 * ABup.y));
 
         g.drawString(String.valueOf(v.getTiempo()), StrPos.x, StrPos.y);
 
