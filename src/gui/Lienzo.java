@@ -86,13 +86,13 @@ public class Lienzo {
     }
 
     public static void pintarCirculo(Graphics2D g, String nombre, int x, int y) {
-        g.setColor(new Color(209, 242, 235));
+        g.setColor(colorCirculo);
         g.fillOval(x, y, 30, 30);
 
-        g.setColor(new Color(33, 47, 60));
+        g.setColor(bordeCirculo);
         g.drawOval(x, y, 30, 30);
 
-        g.setColor(new Color(248, 249, 249));
+        g.setColor(colorTexto);
         g.setFont(font);
         var strMetrics = g.getFontMetrics();
         var width = strMetrics.stringWidth(nombre);
@@ -110,6 +110,8 @@ public class Lienzo {
     }
 
     private static Flecha pintarFlechaImpl(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v) {
+        g.setColor(colorFlecha);
+        g.setStroke(stroke);
         // Matematicas
         // Hallar el centro del circulo
         Vector2D B = new Vector2D(x1 + 15, y1 + 15);
@@ -151,7 +153,7 @@ public class Lienzo {
 
         var StrPos = new Vector2D(ABm.x + (int)(25.0 * ABup.x), ABm.y + (int)(25.0 * ABup.y));
 
-        g.drawString(String.valueOf(v.getTiempo()), StrPos.x, StrPos.y);
+        g.drawString(v.toString(), StrPos.x, StrPos.y);
 
         var R1 = new Vector2D(r1.x, r1.y);
         var R2 = new Vector2D(r2.x, r2.y);
