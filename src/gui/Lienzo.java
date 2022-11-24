@@ -69,8 +69,8 @@ public class Lienzo {
 
                 flechas.put(i + j * grafo.orden(), pintarFlechaImpl(g, cp.x, cp.y, ccp.x, ccp.y, ccost));
             }
-            modified.clear();
         }
+        modified.clear();
     }
 
     public static void limpiar(Graphics2D g, JPanel panel) {
