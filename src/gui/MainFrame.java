@@ -106,13 +106,15 @@ class MyMouseListener extends MouseAdapter {
     @Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         g = (Graphics2D) panel.getGraphics();
+        var camera = Lienzo.getCamera();
         if (evt.getButton() == 1) {
             boolean haynodo = false;
             for (int i = 0; i < grafo.orden(); i++) {
                 var dato = grafo.getVertice(i);
                 var p = dato.getPosition();
-                rectangulo.x = p.x;
-                rectangulo.y = p.y;
+                rectangulo.x = p.x + camera.x;
+                rectangulo.y = p.y + camera.y;
+
                 if (rectangulo.contains(evt.getX(), evt.getY())) {
                     Lienzo.clickSobreNodo(g, p.x, p.y, Color.green, dato.getNombre());
                     haynodo = true;
@@ -154,10 +156,12 @@ class MyMouseListener extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        oldMousePosition.x = e.getX(); oldMousePosition.y = e.getY();
+        var camera = Lienzo.getCamera();
         for (int i = 0; i < grafo.orden(); ++i) {
             var c = grafo.getVertice(i);
             var cp = c.getPosition();
-            r.x = cp.x; r.y = cp.y;
+            r.x = camera.x + cp.x; r.y = camera.y + cp.y;
             if (r.contains(e.getPoint())) {
                 selected = c;
                 return;
@@ -171,20 +175,29 @@ class MyMouseListener extends MouseAdapter {
         selected = null;
     }
 
+    Vector2D oldMousePosition = new Vector2D(0, 0);
+
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (selected == null) return;
         g = (Graphics2D) panel.getGraphics();
+
+        if (selected == null) {
+            Lienzo.moverCamara(e.getX() - oldMousePosition.x, e.getY() - oldMousePosition.y);
+            oldMousePosition.x = e.getX(); oldMousePosition.y = e.getY();
+            panel.paint(g);
+            return;
+        }
 
         int index = -1;
         for (int i = 0; i < grafo.orden(); ++i) {
             if (grafo.getVertice(i).equals(selected)) index = i;
         }
+
         if (index == -1) return;
 
-        selected.setPosition(new Vector2D(e.getX(), e.getY()));
-        Lienzo.modified.add(index);
-        Lienzo.limpiar(g, panel);
-        Lienzo.dibujarGrafo(g, grafo);
+        var camera = Lienzo.getCamera();
+
+        selected.setPosition(new Vector2D(e.getX() - camera.x, e.getY() - camera.y));
+        panel.paint(g);
     }
 }
