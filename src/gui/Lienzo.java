@@ -187,7 +187,7 @@ public class Lienzo {
     public static int hayCiudadEn(Grafo<Ciudad, Viaje> grafo, int x, int y) {
         var pos = pos(x, y);
 
-        var r = new Rectangle(radio, radio);
+        var r = new Rectangle(RADIO, RADIO);
 
         for (int i = 0; i < grafo.orden(); i++) {
             var c = grafo.getVertice(i);
