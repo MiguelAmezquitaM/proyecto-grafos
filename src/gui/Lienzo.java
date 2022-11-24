@@ -110,7 +110,7 @@ public class Lienzo {
         g.drawLine(f.A.x, f.A.y, f.A.x + f.R1.x, f.A.y + f.R1.y);
         g.drawLine(f.A.x, f.A.y, f.A.x + f.R2.x , f.A.y + f.R2.y);
         g.setFont(font);
-        g.drawString(String.valueOf(f.cost.getTiempo()), f.StrPos.x, f.StrPos.y);
+        g.drawString(f.cost.toString(), f.StrPos.x, f.StrPos.y);
     }
 
     private static Flecha pintarFlechaImpl(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v) {
