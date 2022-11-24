@@ -181,6 +181,9 @@ class MyMouseListener extends MouseAdapter {
                     return;
                 }
                 grafo.addCosto(nodo1, nodo2, new Viaje(costo, distancia, tiempo));
+                Lienzo.modified.add(nodo1);
+                Lienzo.modified.add(nodo2);
+
                 nodo1 = nodo2 = -1;
                 n = 0;
 
