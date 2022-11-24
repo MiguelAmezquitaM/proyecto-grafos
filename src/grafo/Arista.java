@@ -12,9 +12,8 @@ public class Arista<E, C> {
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
-        if (!(obj instanceof Arista<?, ?>)) return false;
-        Arista<?, ?> o = (Arista<?, ?>) obj;
-        return o.costo.equals(costo) && o.dato.equals(dato);
+        if (!(obj instanceof Arista<?, ?> o)) return false;
+        return o.dato.equals(dato);
     }
 
 }
