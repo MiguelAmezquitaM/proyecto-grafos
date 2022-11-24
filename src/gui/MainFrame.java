@@ -22,8 +22,6 @@ import gui.util.Vector2D;
 public class MainFrame extends javax.swing.JFrame {
 
     private final Grafo<Ciudad, Viaje>  grafo = new GrafoD<>();
-
-    Graphics2D graphics2D;
     /**
      * Creates new form MainFrame
      */
@@ -71,6 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
         MouseAdapter ml = new MyMouseListener(canvas, grafo);
         canvas.addMouseListener(ml);
         canvas.addMouseMotionListener(ml);
+        canvas.addMouseWheelListener(ml);
 
         add(canvas);
     }
@@ -85,15 +84,10 @@ public class MainFrame extends javax.swing.JFrame {
 
 class MyMouseListener extends MouseAdapter {
     Ciudad selected = null;
-    Rectangle r = new Rectangle(30, 30);
 
     private final Grafo<Ciudad, Viaje> grafo;
     private int n = 0;
     int nodo1 = -1, nodo2 = -1;
-    boolean mov;
-    int disX = 0;
-    int disY = 0;
-    Rectangle rectangulo = new Rectangle(30, 30);
     JPanel panel;
     Graphics2D g;
 
@@ -106,29 +100,32 @@ class MyMouseListener extends MouseAdapter {
     @Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         g = (Graphics2D) panel.getGraphics();
-        var camera = Lienzo.getCamera();
         if (evt.getButton() == 1) {
             boolean haynodo = false;
-            for (int i = 0; i < grafo.orden(); i++) {
-                var dato = grafo.getVertice(i);
-                var p = dato.getPosition();
-                rectangulo.x = p.x + camera.x;
-                rectangulo.y = p.y + camera.y;
+            var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
 
-                if (rectangulo.contains(evt.getX(), evt.getY())) {
-                    Lienzo.clickSobreNodo(g, p.x, p.y, Color.green, dato.getNombre());
-                    haynodo = true;
-                    n++;
-                    if (nodo1 == -1 && nodo2 == -1) {
-                        nodo1 = i;
-                    } else {
-                        nodo2 = i;
-                    }
+            if (ci != -1) {
+                var c = grafo.getVertice(ci);
+                var p = c.getPosition();
+                Lienzo.clickSobreNodo(g, p.x, p.y, Color.green);
+                haynodo = true;
+                n++;
+                if (nodo1 == -1 && nodo2 == -1) {
+                    nodo1 = ci;
+                } else {
+                    nodo2 = ci;
                 }
             }
+
             if (!haynodo) {
-                String nombre = JOptionPane.showInputDialog("Nombre de la ciudad: ");
-                String pais = JOptionPane.showInputDialog("Nombre del pais: ");
+                String nombre, pais;
+                try {
+                    nombre = JOptionPane.showInputDialog("Nombre de la ciudad: "); if (nombre == null) throw new Exception();
+                    pais = JOptionPane.showInputDialog("Nombre del pais: "); if (pais == null) throw new Exception();
+                } catch (Exception e) {
+                    return;
+                }
+
                 grafo.addVertice(new Ciudad(nombre, pais, new Vector2D(evt.getX(), evt.getY())));
                 Lienzo.pintarCirculo(g, nombre, evt.getX(), evt.getY());
             }
@@ -148,8 +145,7 @@ class MyMouseListener extends MouseAdapter {
                 nodo1 = nodo2 = -1;
                 n = 0;
 
-                Lienzo.limpiar(g, panel);
-                Lienzo.dibujarGrafo(g, grafo);
+                panel.paint(g);
             }
         }
     }
@@ -157,16 +153,13 @@ class MyMouseListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         oldMousePosition.x = e.getX(); oldMousePosition.y = e.getY();
-        var camera = Lienzo.getCamera();
-        for (int i = 0; i < grafo.orden(); ++i) {
-            var c = grafo.getVertice(i);
-            var cp = c.getPosition();
-            r.x = camera.x + cp.x; r.y = camera.y + cp.y;
-            if (r.contains(e.getPoint())) {
-                selected = c;
-                return;
-            }
+        var ci = Lienzo.hayCiudadEn(grafo, e.getX(), e.getY());
+
+        if (ci != -1) {
+            selected = grafo.getVertice(ci);
+            return;
         }
+
         selected = null;
     }
 
@@ -183,21 +176,22 @@ class MyMouseListener extends MouseAdapter {
 
         if (selected == null) {
             Lienzo.moverCamara(e.getX() - oldMousePosition.x, e.getY() - oldMousePosition.y);
-            oldMousePosition.x = e.getX(); oldMousePosition.y = e.getY();
+            oldMousePosition.x = e.getX();
+            oldMousePosition.y = e.getY();
             panel.paint(g);
             return;
         }
 
-        int index = -1;
-        for (int i = 0; i < grafo.orden(); ++i) {
-            if (grafo.getVertice(i).equals(selected)) index = i;
-        }
+        selected.setPosition(Lienzo.pos(e.getX(), e.getY()));
+        panel.paint(g);
+    }
 
-        if (index == -1) return;
-
-        var camera = Lienzo.getCamera();
-
-        selected.setPosition(new Vector2D(e.getX() - camera.x, e.getY() - camera.y));
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        g = (Graphics2D) panel.getGraphics();
+        super.mouseWheelMoved(e);
+        var rot = e.getPreciseWheelRotation();
+        Lienzo.setScale(0.05 * rot);
         panel.paint(g);
     }
 }

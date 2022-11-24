@@ -7,7 +7,6 @@ import grafo.Grafo;
 import gui.util.Vector2D;
 import gui.util.Vector2F;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +58,8 @@ public class Lienzo {
 
     private static final Vector2D camera = new Vector2D(0, 0);
 
+    private static double scale = 1.0;
+
     public static Vector2D getCamera() { return camera; }
 
     public static void dibujarGrafo(Graphics2D g, Grafo<Ciudad, Viaje> grafo) {
@@ -83,14 +84,10 @@ public class Lienzo {
         modified.clear();
     }
 
-    public static void limpiar(Graphics2D g, JPanel panel) {
-        var size = panel.getSize();
-        g.setColor(panel.getBackground());
-        g.clearRect(0, 0, size.width, size.height);
-    }
-
     public static void pintarCirculo(Graphics2D g, String nombre, int x, int y) {
         x += camera.x; y += camera.y;
+        x *= scale; y *= scale;
+
         g.setColor(colorCirculo);
         g.fillOval(x, y, 30, 30);
 
@@ -120,6 +117,8 @@ public class Lienzo {
         // Matematicas
         x1 += camera.x; x2 += camera.x;
         y1 += camera.y; y2 += camera.y;
+        x1 *= scale; x2 *= scale;
+        y1 *= scale; y1 *= scale;
         // Hallar el centro del circulo
         Vector2D B = new Vector2D(x1 + 15, y1 + 15);
         Vector2D A = new Vector2D(x2 + 15, y2 + 15);
@@ -168,8 +167,9 @@ public class Lienzo {
         return new Flecha(A, B, R1, R2, StrPos, v);
     }
 
-    public static void clickSobreNodo(Graphics2D g, int x, int y, Color co, String n) {
+    public static void clickSobreNodo(Graphics2D g, int x, int y, Color co) {
         x += camera.x; y += camera.y;
+        x *= scale; y *= scale;
         g.setColor(co);
         g.setStroke(new BasicStroke(4));
         g.fillOval(x, y, 30, 30);
@@ -180,5 +180,34 @@ public class Lienzo {
     public static void moverCamara(int dx, int dy) {
         camera.x += dx; camera.y += dy;
     }
+
+    public static int hayCiudadEn(Grafo<Ciudad, Viaje> grafo, int x, int y) {
+        var pos = pos(x, y);
+
+        var r = new Rectangle(30, 30);
+
+        for (int i = 0; i < grafo.orden(); i++) {
+            var c = grafo.getVertice(i);
+            var cp = c.getPosition();
+            r.x = cp.x;
+            r.y = cp.y;
+            if (r.contains(pos.x, pos.y)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static Vector2D pos(int x, int y) {
+        x -= camera.x; y -= camera.y;
+        x /= scale; y /= scale;
+        return new Vector2D(x, y);
+    }
+
+    public static void setScale(double ds) {
+        scale += ds;
+    }
+
+    public static double getScale() { return scale; }
 
 }
