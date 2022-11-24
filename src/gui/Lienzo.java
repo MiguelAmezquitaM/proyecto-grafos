@@ -84,7 +84,7 @@ public class Lienzo {
 
                 var ccp = grafo.getVertice(j).getPosition();
 
-                flechas.put(i + j * grafo.orden(), pintarFlechaImpl(g, cp.x, cp.y, ccp.x, ccp.y, ccost));
+                flechas.put(i + j * grafo.orden(), pintarFlechaImpl(g, cp.x, cp.y, ccp.x, ccp.y, ccost, colorFlecha));
             }
         }
         modified.clear();
@@ -117,8 +117,8 @@ public class Lienzo {
         g.drawString(f.cost.toString(), f.StrPos.x, f.StrPos.y);
     }
 
-    private static Flecha pintarFlechaImpl(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v) {
-        g.setColor(colorFlecha);
+    private static Flecha pintarFlechaImpl(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v, Color c) {
+        g.setColor(c);
         g.setStroke(stroke);
         // Matematicas
         x1 += camera.x; x2 += camera.x;
