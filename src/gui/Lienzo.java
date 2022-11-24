@@ -62,6 +62,10 @@ public class Lienzo {
 
     private static final int RADIO = 30;
 
+    private static final double MIN_SCALE = 0.7;
+
+    private static final double MAX_SCALE = 1.8;
+
     private static int radio = RADIO;
 
     public static void dibujarGrafo(Graphics2D g, Grafo<Ciudad, Viaje> grafo) {
@@ -207,13 +211,9 @@ public class Lienzo {
         return new Vector2D(x, y);
     }
 
-    private static final double MIN_SCALE = 0.5;
-    private static final double MAX_SCALE = 3.0;
-
-
     public static void setScale(double ds) {
-        scale += ds;
-        radio = (int) Math.max(MIN_SCALE, Math.min(MAX_SCALE, RADIO * scale));
+        scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale + ds));
+        radio = (int) (RADIO * scale);
     }
 
 }
