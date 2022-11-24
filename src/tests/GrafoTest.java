@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
 public class GrafoTest {
@@ -62,6 +61,23 @@ public class GrafoTest {
         g.removeVertice(0);
         assertEquals(g.getVertice(0), "9");
         assertEquals(g.getVertice(1), "2");
+    }
+
+    @Test
+    public void removeArista() {
+        g.addVertice("8");
+        g.addVertice("9");
+        g.addVertice("2");
+        g.addCosto(0, 1, 152.0);
+        g.addCosto(1, 2, 485.0);
+        g.addCosto(2, 0, 740.0);
+
+        g.removeArista(0, 1);
+        g.removeArista(2, 0);
+
+        assertNull(g.getCosto(0, 1));
+        assertNull(g.getCosto(2, 0));
+        assertNotNull(g.getCosto(1, 2));
     }
 
     @Parameterized.Parameters
