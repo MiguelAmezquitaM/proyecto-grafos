@@ -67,6 +67,20 @@ public class GrafoD<E, C> implements Grafo<E, C>, Serializable {
     }
 
     @Override
+    public void removeArista(int ver, int ar) {
+        if (0 > ver || ver >= orden() || 0 > ar || ar >= orden())
+            throw new IndexOutOfBoundsException();
+        var target = vertices.get(ar);
+        var vertice = vertices.get(ver);
+        for (var a : vertice) {
+            if (a.dato.equals(target.dato)) {
+                vertice.removeArista(a);
+                return;
+            }
+        }
+    }
+
+    @Override
     public int orden() {
         return vertices.size();
     }

@@ -69,6 +69,13 @@ public class GrafoE<E, C> implements Grafo<E, C>, Serializable{
     }
 
     @Override
+    public void removeArista(int ver, int ar) {
+        if (0 > ver || ver >= orden() || 0 > ar || ar >= orden())
+            throw new IndexOutOfBoundsException();
+        costos[ver][ar] = null;
+    }
+
+    @Override
     public int orden() {
         return vertices.size();
     }
