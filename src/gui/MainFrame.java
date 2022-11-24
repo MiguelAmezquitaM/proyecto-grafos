@@ -48,6 +48,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         };
 
+        JPanel menu = new JPanel();
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -58,12 +60,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         setTitle("Proyecto grafos");
         setResizable(true);
-        setLayout(new GridLayout(1, 1));
+        setLayout(new GridLayout(1, 2));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1200, 720);
         setBackground(new Color(19, 141, 117, 255));
 
-        canvas.setBounds(new Rectangle(0, 0, 1200, 720));
+
         canvas.setBackground(new java.awt.Color(30, 132, 73, 255));
 
         MouseAdapter ml = new MyMouseListener(canvas, grafo);
@@ -72,6 +74,7 @@ public class MainFrame extends javax.swing.JFrame {
         canvas.addMouseWheelListener(ml);
 
         add(canvas);
+        add(menu);
     }
 
     public static void main(String[] args) {
@@ -191,7 +194,7 @@ class MyMouseListener extends MouseAdapter {
         g = (Graphics2D) panel.getGraphics();
         super.mouseWheelMoved(e);
         var rot = e.getPreciseWheelRotation();
-        Lienzo.setScale(0.05 * rot);
+        Lienzo.setScale(-0.05 * rot);
         panel.paint(g);
         for (int i = 0; i < grafo.orden(); i++) {
             Lienzo.modified.add(i);
