@@ -47,6 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
             public void paint(Graphics g) {
                 super.paint(g);
                 Lienzo.dibujarGrafo((Graphics2D) g, grafo);
+                g.dispose();
             }
         };
 
