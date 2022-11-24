@@ -207,9 +207,13 @@ public class Lienzo {
         return new Vector2D(x, y);
     }
 
+    private static final double MIN_SCALE = 0.5;
+    private static final double MAX_SCALE = 3.0;
+
+
     public static void setScale(double ds) {
         scale += ds;
-        radio = (int) (RADIO * scale);
+        radio = (int) Math.max(MIN_SCALE, Math.min(MAX_SCALE, RADIO * scale));
     }
 
 }
