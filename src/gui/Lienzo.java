@@ -57,6 +57,10 @@ public class Lienzo {
 
     private static final double sintetha = Math.sin(tetha);
 
+    private static final Vector2D camera = new Vector2D(0, 0);
+
+    public static Vector2D getCamera() { return camera; }
+
     public static void dibujarGrafo(Graphics2D g, Grafo<Ciudad, Viaje> grafo) {
         for (int i = 0; i < grafo.orden(); i++) {
             var c = grafo.getVertice(i);
@@ -86,6 +90,7 @@ public class Lienzo {
     }
 
     public static void pintarCirculo(Graphics2D g, String nombre, int x, int y) {
+        x += camera.x; y += camera.y;
         g.setColor(colorCirculo);
         g.fillOval(x, y, 30, 30);
 
@@ -113,6 +118,8 @@ public class Lienzo {
         g.setColor(colorFlecha);
         g.setStroke(stroke);
         // Matematicas
+        x1 += camera.x; x2 += camera.x;
+        y1 += camera.y; y2 += camera.y;
         // Hallar el centro del circulo
         Vector2D B = new Vector2D(x1 + 15, y1 + 15);
         Vector2D A = new Vector2D(x2 + 15, y2 + 15);
@@ -162,11 +169,16 @@ public class Lienzo {
     }
 
     public static void clickSobreNodo(Graphics2D g, int x, int y, Color co, String n) {
+        x += camera.x; y += camera.y;
         g.setColor(co);
         g.setStroke(new BasicStroke(4));
         g.fillOval(x, y, 30, 30);
         g.setColor(Color.black);
         g.drawOval(x, y, 30, 30);
+    }
+
+    public static void moverCamara(int dx, int dy) {
+        camera.x += dx; camera.y += dy;
     }
 
 }
