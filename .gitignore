@@ -3,3 +3,6 @@ build
 
 out
 *.obj
+
+# Build
+proyecto-grafos.jar
