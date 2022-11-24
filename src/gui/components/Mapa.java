@@ -13,11 +13,9 @@ import gui.renderables.Node;
 import gui.util.Vector2D;
 
 public class Mapa extends JPanel {
-    private Grafo<Ciudad, Viaje> ciudades;
+    private final Grafo<Ciudad, Viaje> ciudades;
 
-    private Renderer renderer = new Renderer();
-
-    private Canvas mapa;
+    private final Renderer renderer = new Renderer();
 
     public Mapa(Grafo<Ciudad, Viaje> ciudades) {
         this.ciudades = ciudades;
@@ -28,12 +26,12 @@ public class Mapa extends JPanel {
     private void initRenderer() {
         for (int i = 0; i < ciudades.orden(); ++i) {
             Vector2D pos = new Vector2D((int)(Math.random() * 100), (int)(Math.random() * 100));
-            renderer.add(new Node(pos, Color.green, ciudades.getVertice(i).dato));
+            renderer.add(new Node(pos, Color.green, ciudades.getVertice(i)));
         }
     }
 
     private void initialize() {
-        mapa = new Canvas() {
+        Canvas mapa = new Canvas() {
             public void paint(Graphics g) {
                 renderer.render(g);
             }
