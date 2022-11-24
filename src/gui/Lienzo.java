@@ -206,8 +206,8 @@ public class Lienzo {
     }
 
     public static Vector2D pos(int x, int y) {
-        x -= camera.x; y -= camera.y;
         x /= scale; y /= scale;
+        x -= camera.x; y -= camera.y;
         return new Vector2D(x, y);
     }
 
