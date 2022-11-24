@@ -55,7 +55,7 @@ public class Lienzo {
 
     private static final double costetha = Math.cos(tetha);
 
-    private static final double sintetha = Math.cos(tetha);
+    private static final double sintetha = Math.sin(tetha);
 
     public static void dibujarGrafo(Graphics2D g, Grafo<Ciudad, Viaje> grafo) {
         for (int i = 0; i < grafo.orden(); i++) {
