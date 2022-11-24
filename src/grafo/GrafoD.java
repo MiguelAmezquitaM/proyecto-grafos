@@ -55,7 +55,6 @@ public class GrafoD<E, C> implements Grafo<E, C>, Serializable {
         if (pos >= orden()) throw new IndexOutOfBoundsException();
 
         var tar = vertices.get(pos);
-        vertices.remove(tar);
 
         for (var v : vertices) {
             for (var a : v) {
@@ -64,6 +63,7 @@ public class GrafoD<E, C> implements Grafo<E, C>, Serializable {
                 }
             }
         }
+        vertices.remove(tar);
     }
 
     @Override
