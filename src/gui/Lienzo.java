@@ -51,6 +51,12 @@ public class Lienzo {
 
     private static final BasicStroke stroke = new BasicStroke(2);
 
+    private static final double tetha = 40 * Math.PI / 180;
+
+    private static final double costetha = Math.cos(tetha);
+
+    private static final double sintetha = Math.cos(tetha);
+
     public static void dibujarGrafo(Graphics2D g, Grafo<Ciudad, Viaje> grafo) {
         for (int i = 0; i < grafo.orden(); i++) {
             var c = grafo.getVertice(i);
@@ -123,19 +129,13 @@ public class Lienzo {
 
         g.drawLine(A.x, A.y, B.x, B.y);
 
-        // Rotando ABu 40 grados
-        double tetha = 40 * Math.PI / 180;
-
-        double sintheha = Math.sin(tetha);
-        double costheha = Math.cos(tetha);
-
         Vector2F r1 = new Vector2F(
-                ABu.x * costheha - ABu.y * sintheha,
-                ABu.x * sintheha + ABu.y * costheha
+                ABu.x * costetha - ABu.y * sintetha,
+                ABu.x * sintetha + ABu.y * costetha
         );
         Vector2F r2 = new Vector2F(
-                ABu.x * costheha - ABu.y * (-sintheha),
-                ABu.x * (-sintheha) + ABu.y * costheha
+                ABu.x * costetha - ABu.y * (-sintetha),
+                ABu.x * (-sintetha) + ABu.y * costetha
         );
 
         r1 = r1.by(15.0);
