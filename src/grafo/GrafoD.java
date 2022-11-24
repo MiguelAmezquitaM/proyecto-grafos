@@ -1,12 +1,15 @@
 package grafo;
 
+import datos.Viaje;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /** Grafo dinamico */
-public class GrafoD<E, C> implements Grafo<E, C>, Serializable{
+public class GrafoD<E, C> implements Grafo<E, C>, Serializable {
 
     ArrayList<Vertice<E, C>> vertices = new ArrayList<>();
 
@@ -45,6 +48,22 @@ public class GrafoD<E, C> implements Grafo<E, C>, Serializable{
         }
 
         return sucesores;
+    }
+
+    @Override
+    public void removeVertice(int pos) {
+        if (pos >= orden()) throw new IndexOutOfBoundsException();
+
+        var tar = vertices.get(pos);
+        vertices.remove(tar);
+
+        for (var v : vertices) {
+            for (var a : v) {
+                if (Objects.equals(a.dato, tar.dato)) {
+                    v.removeArista(a);
+                }
+            }
+        }
     }
 
     @Override

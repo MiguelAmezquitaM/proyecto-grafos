@@ -30,4 +30,7 @@ public class Vertice<E, C> implements Iterable<Arista<E, C>>, Serializable {
         return sucesores.iterator();
     }
 
+    public void removeArista(Arista<?, ?> a) {
+        sucesores.remove(a);
+    }
 }

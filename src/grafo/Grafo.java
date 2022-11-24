@@ -38,6 +38,11 @@ public interface Grafo<E, C> {
     List<E> getSucesores(int pos);
 
     /**
+     * Elimina el vertice y todas las aristas
+     */
+    void removeVertice(int pos);
+
+    /**
      * @return numero de vertices del grafo
      */
     int orden();

@@ -53,6 +53,22 @@ public class GrafoE<E, C> implements Grafo<E, C>, Serializable{
     }
 
     @Override
+    public void removeVertice(int pos) {
+        if (pos >= orden()) throw new IndexOutOfBoundsException();
+
+        for (int i = 0; i < orden(); i++) {
+            if (i == pos) {
+                costos[pos][i] = costos[pos + 1][i + 1];
+                continue;
+            }
+            costos[pos][i] = costos[pos + 1][i];
+            costos[i][pos] = costos[i][pos + 1];
+        }
+
+        vertices.remove(vertices.get(pos));
+    }
+
+    @Override
     public int orden() {
         return vertices.size();
     }
