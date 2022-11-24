@@ -1,14 +1,17 @@
-/*package grafo;
+package grafo;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/** 
+ * Grafo estatico
+ */
 public class GrafoE<E, C> implements Grafo<E, C> {
 
-    private C[][] costos;
+    private final C[][] costos;
 
-    private List<E> vertices;
+    private final List<E> vertices;
 
     public GrafoE(int maxVertices, List<E> vertices, Class<C> c) {
         @SuppressWarnings("unchecked")
@@ -54,4 +57,3 @@ public class GrafoE<E, C> implements Grafo<E, C> {
     }
     
 }
-*/
