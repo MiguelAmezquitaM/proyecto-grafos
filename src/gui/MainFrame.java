@@ -14,17 +14,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.*;
+
 import grafo.Grafo;
 import grafo.GrafoD;
 import gui.util.Vector2D;
 import persist.ArchivoProyecto;
+
 /**
  * @author david
  */
 public class MainFrame extends javax.swing.JFrame {
     Grafo<Ciudad, Viaje> grafo = new GrafoD<>();
+
     /**
      * Creates new form MainFrame
+     *
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws FileNotFoundException
@@ -67,7 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
         canvas.setBackground(new java.awt.Color(30, 132, 73, 255));
 
         MouseAdapter ml = new MyMouseListener(canvas, grafo);
-        WindowAdapter w1 = new MyWindowListener(archivoProyecto, grafo);  
+        WindowAdapter w1 = new MyWindowListener(archivoProyecto, grafo);
         canvas.addMouseListener(ml);
         canvas.addMouseMotionListener(ml);
         canvas.addMouseWheelListener(ml);
@@ -86,7 +90,7 @@ public class MainFrame extends javax.swing.JFrame {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
+
         });
     }
 }
@@ -108,7 +112,18 @@ class MyMouseListener extends MouseAdapter {
     @Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         g = (Graphics2D) panel.getGraphics();
-        if (evt.getButton() == 1) {
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            int op = PopupMenu.click(evt.getX(), evt.getY());
+            if (op != -1) {
+                if (op == 0)
+                    grafo.removeVertice(PopupMenu.selected);
+                if (op == 1) {
+                    // TODO: Aislar los vertices
+                }
+                panel.repaint();
+                return;
+            }
+
             boolean haynodo = false;
             var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
 
@@ -128,8 +143,10 @@ class MyMouseListener extends MouseAdapter {
             if (!haynodo) {
                 String nombre, pais;
                 try {
-                    nombre = JOptionPane.showInputDialog("Nombre de la ciudad: "); if (nombre == null) throw new Exception();
-                    pais = JOptionPane.showInputDialog("Nombre del pais: "); if (pais == null) throw new Exception();
+                    nombre = JOptionPane.showInputDialog("Nombre de la ciudad: ");
+                    if (nombre == null) throw new Exception();
+                    pais = JOptionPane.showInputDialog("Nombre del pais: ");
+                    if (pais == null) throw new Exception();
                 } catch (Exception e) {
                     return;
                 }
@@ -138,12 +155,15 @@ class MyMouseListener extends MouseAdapter {
                 panel.repaint();
             }
             if (n == 2) {
-                double costo, distancia; int tiempo;
+                double costo, distancia;
+                int tiempo;
                 try {
                     costo = Double.parseDouble(JOptionPane.showInputDialog("Costo: "));
                     distancia = Double.parseDouble(JOptionPane.showInputDialog("Distancia: "));
                     tiempo = Integer.parseInt(JOptionPane.showInputDialog("Tiempo: "));
                 } catch (Exception e) {
+                    nodo1 = nodo2 = -1;
+                    n = 0;
                     return;
                 }
                 grafo.addCosto(nodo1, nodo2, new Viaje(costo, distancia, tiempo));
@@ -155,13 +175,20 @@ class MyMouseListener extends MouseAdapter {
 
                 panel.repaint();
             }
+        } else if (evt.getButton() == MouseEvent.BUTTON3) {
+            var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
+
+            if (ci == -1) return;
+
+            PopupMenu.draw(evt.getX(), evt.getY(), g, ci);
         }
     }
 
     @Override
-    
+
     public void mousePressed(MouseEvent e) {
-        oldMousePosition.x = e.getX(); oldMousePosition.y = e.getY();
+        oldMousePosition.x = e.getX();
+        oldMousePosition.y = e.getY();
         var ci = Lienzo.hayCiudadEn(grafo, e.getX(), e.getY());
 
         if (ci != -1) {
@@ -210,13 +237,15 @@ class MyMouseListener extends MouseAdapter {
 
 class MyWindowListener extends WindowAdapter {
     ArchivoProyecto ar = new ArchivoProyecto();
-    private Grafo<Ciudad,Viaje> grafo;
+    private Grafo<Ciudad, Viaje> grafo;
+
     public MyWindowListener(ArchivoProyecto archivoProyecto, Grafo<Ciudad, Viaje> grafo) {
         this.ar = archivoProyecto;
         this.grafo = grafo;
     }
+
     @Override
-    public void windowClosed(WindowEvent e){
+    public void windowClosed(WindowEvent e) {
         try {
             ar.write(grafo);
         } catch (IOException e1) {
