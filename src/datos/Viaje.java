@@ -39,6 +39,6 @@ public class Viaje {
 
     @Override
     public String toString() {
-        return "Viaje [costo=" + costo + ", distancia=" + distancia + ", tiempo=" + tiempo + "]";
+        return "C: " + costo.intValue() + " D: " + distancia.intValue() + " T:" + tiempo;
     }
 }
