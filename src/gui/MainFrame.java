@@ -90,7 +90,6 @@ public class MainFrame extends javax.swing.JFrame {
                 f = new MainFrame();
                 f.setVisible(true);
             } catch (ClassNotFoundException | IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -116,7 +115,7 @@ class MyMouseListener extends MouseAdapter {
         this.panel = panel;
     }
 
-    public List<Integer> masSalidas(Grafo<Ciudad,Viaje> grafo) {
+    public List<Integer> masSalidas(Grafo<Ciudad, Viaje> grafo) {
         List<Integer> masSalidas = new ArrayList<>();
         int mayor = -1;
         for (int i = 0; i < grafo.orden(); i++) {
@@ -142,7 +141,8 @@ class MyMouseListener extends MouseAdapter {
             return;
         }
         int j = floyd.getRecorridos()[i][pre];
-        if (j == -1) return;
+        if (j == -1)
+            return;
         Vector2D c1p = grafo.getVertice(i).getPosition();
         Vector2D c2p = grafo.getVertice(j).getPosition();
         Viaje viaje = grafo.getCosto(i, j);
@@ -154,36 +154,34 @@ class MyMouseListener extends MouseAdapter {
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         g = (Graphics2D) panel.getGraphics();
 
-        if (floyd != null) {
-            int destiny = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
-            if (destiny == -1) {
+        int nodoClickeado = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
+
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            if (floyd != null) {
+                int destiny = nodoClickeado;
+                if (destiny == -1) {
+                    floyd = null;
+                    return;
+                }
+
+                drawPath(PopupMenu.selected, destiny);
+
                 floyd = null;
                 return;
             }
 
-            drawPath(PopupMenu.selected, destiny);
-
-            floyd = null;
-            return;
-        }
-
-        if (evt.getButton() == MouseEvent.BUTTON1) {
             int op = PopupMenu.click(evt.getX(), evt.getY());
             if (op != -1) {
                 if (op == 0) {
                     grafo.removeVertice(PopupMenu.selected);
-                }
-                else if (op == 1) {
+                } else if (op == 1) {
                     grafo.aislar(PopupMenu.selected);
-                }
-                else if (op == 2) {
+                } else if (op == 2) {
                     floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
-                }
-                else if (op == 3) {
+                } else if (op == 3) {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
-                }
-                else if (op == 4) {
+                } else if (op == 4) {
                     List<Integer> indexes = masSalidas(grafo);
                     panel.repaint(PopupMenu.rect);
                     for (var index : indexes) {
@@ -195,7 +193,7 @@ class MyMouseListener extends MouseAdapter {
                 }
 
                 if (dfsResult != null) {
-                    for (var ciudad: dfsResult) {
+                    for (var ciudad : dfsResult) {
                         var p = ciudad.getPosition();
                         Lienzo.pintarCirculo(g, ciudad.getNombre(), p.x, p.y, Color.red);
                     }
@@ -209,7 +207,7 @@ class MyMouseListener extends MouseAdapter {
             }
 
             boolean haynodo = false;
-            var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
+            var ci = nodoClickeado;
 
             if (ci != -1) {
                 var c = grafo.getVertice(ci);
@@ -228,9 +226,11 @@ class MyMouseListener extends MouseAdapter {
                 String nombre, pais;
                 try {
                     nombre = JOptionPane.showInputDialog("Nombre de la ciudad: ");
-                    if (nombre == null) throw new Exception();
+                    if (nombre == null)
+                        throw new Exception();
                     pais = JOptionPane.showInputDialog("Nombre del pais: ");
-                    if (pais == null) throw new Exception();
+                    if (pais == null)
+                        throw new Exception();
                 } catch (Exception e) {
                     return;
                 }
@@ -261,9 +261,10 @@ class MyMouseListener extends MouseAdapter {
                 panel.repaint();
             }
         } else if (evt.getButton() == MouseEvent.BUTTON3) {
-            var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
+            var ci = nodoClickeado;
 
-            if (ci == -1) return;
+            if (ci == -1)
+                return;
 
             PopupMenu.draw(evt.getX(), evt.getY(), g, ci);
         }
@@ -281,6 +282,7 @@ class MyMouseListener extends MouseAdapter {
         }
 
         selected = null;
+        
     }
 
     @Override
