@@ -14,8 +14,8 @@ public class Arista<E, C> implements Serializable{
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
-        if (!(obj instanceof Arista<?, ?> o)) return false;
-        return o.dato.equals(dato);
+        if (!(obj instanceof Arista<?, ?>)) return false;
+        return ((Arista<?, ?>) obj).dato.equals(dato);
     }
 
 }
