@@ -6,11 +6,11 @@ public class Floyd<E, C> {
     private final C[][] f;
     private final int[][] r;
 
-    public C[][] getF() {
+    public C[][] getMinimasDistancias() {
         return f;
     }
 
-    public int[][] getR() {
+    public int[][] getRecorridos() {
         return r;
     }
 
