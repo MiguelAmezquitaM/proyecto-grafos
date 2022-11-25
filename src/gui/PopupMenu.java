@@ -8,7 +8,7 @@ public class PopupMenu {
     final static int FONT_HEIGHT = 18;
 
     final static String[] options = new String[] {
-            "Eliminar", "Aislar", "Ruta minima", "Destinos"
+            "Eliminar", "Aislar", "Ruta minima", "Destinos", "Mas salidas"
     };
 
     private static final Rectangle opt = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT);
