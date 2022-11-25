@@ -76,6 +76,14 @@ public class GrafoE<E, C> implements Grafo<E, C>, Serializable{
     }
 
     @Override
+    public void aislar(int pos) {
+        for (int i = 0; i < orden(); i++) {
+            costos[i][pos] = null;
+            costos[pos][i] = null;
+        }
+    }
+
+    @Override
     public int orden() {
         return vertices.size();
     }

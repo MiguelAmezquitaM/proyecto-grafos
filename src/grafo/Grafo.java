@@ -50,6 +50,12 @@ public interface Grafo<E, C> {
     void removeArista(int ver, int ar);
 
     /**
+     * Remueve todas las aristas relacionadas
+     * con un vertice
+     */
+    void aislar(int pos);
+
+    /**
      * @return numero de vertices del grafo
      */
     int orden();

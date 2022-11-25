@@ -79,6 +79,20 @@ public class GrafoD<E, C> implements Grafo<E, C>, Serializable {
     }
 
     @Override
+    public void aislar(int pos) {
+        var target = vertices.get(pos);
+        for (var v : vertices) {
+            for (var a : v) {
+                if (a.dato.equals(target.dato)) {
+                    v.removeArista(a);
+                    break;
+                }
+            }
+        }
+        target.removeAll();
+    }
+
+    @Override
     public int orden() {
         return vertices.size();
     }
