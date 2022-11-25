@@ -28,7 +28,7 @@ public class ECiudad extends Entidad {
         int y = ciudad.getPosition().y;
         var cameraPos = camera.getPosition();
         var cameraScale = camera.getScale();
-        var g = panel.getGraphics();
+        var g = (Graphics2D) panel.getGraphics();
 
         x += cameraPos.x; y += cameraPos.y;
         x *= cameraScale; y *= cameraScale;

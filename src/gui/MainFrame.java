@@ -30,6 +30,8 @@ import persist.ArchivoProyecto;
  */
 public class MainFrame extends javax.swing.JFrame {
     Grafo<Ciudad, Viaje> grafo = new GrafoD<>();
+    Grafo<ECiudad, EViaje> grafoGui = new GrafoD<>();
+    ArchivoProyecto archivoProyecto;
 
     /**
      * Creates new form MainFrame
@@ -39,14 +41,16 @@ public class MainFrame extends javax.swing.JFrame {
      * @throws FileNotFoundException
      */
     public MainFrame() throws FileNotFoundException, ClassNotFoundException, IOException {
+        archivoProyecto = new ArchivoProyecto();
+        File f = new File("grafo.obj");
+        grafo = f.exists() ? archivoProyecto.read() : grafo;
         initComponents();
     }
 
     private void initComponents() throws FileNotFoundException, ClassNotFoundException, IOException {
-        ArchivoProyecto archivoProyecto = new ArchivoProyecto();
-        File f = new File("grafo.obj");
-        grafo = f.exists() ? archivoProyecto.read() : grafo;
-        
+
+        Camera camera = new Camera();
+
         ManejoEntidades mEntidades = new ManejoEntidades();
 
         JPanel canvas = new JPanel() {
@@ -54,7 +58,6 @@ public class MainFrame extends javax.swing.JFrame {
             public void paint(Graphics g) {
                 super.paint(g);
                 mEntidades.pintar();
-                g.dispose();
             }
         };
 
@@ -65,9 +68,6 @@ public class MainFrame extends javax.swing.JFrame {
                 canvas.setSize(e.getComponent().getSize());
             }
         });
-
-
-        Camera camera = new Camera();
 
         ELienzo lienzo = new ELienzo(canvas, mEntidades, grafo, camera);
 
