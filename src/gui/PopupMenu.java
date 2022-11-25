@@ -17,6 +17,8 @@ public class PopupMenu {
 
     public static int selected = -1;
 
+    private static final Font font = new Font(Font.MONOSPACED, Font.PLAIN, FONT_HEIGHT);
+
     public static void draw(int x, int y, Graphics2D g, int idx) {
         rect.x = x; rect.y = y; selected = idx;
 
@@ -24,7 +26,7 @@ public class PopupMenu {
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
         g.setColor(Color.white);
 
-        g.setFont(new Font("Cascadia Code", Font.BOLD, FONT_HEIGHT));
+        g.setFont(font);
         for (int i = 0; i < options.length; i++) {
             g.drawRect(rect.x, rect.y + i * OPTION_HEIGHT, OPTION_WIDTH, OPTION_HEIGHT);
             g.drawString(options[i], rect.x + 15, rect.y + (i + 1) * OPTION_HEIGHT - (OPTION_HEIGHT - FONT_HEIGHT) / 2);

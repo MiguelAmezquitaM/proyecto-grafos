@@ -119,7 +119,7 @@ class MyMouseListener extends MouseAdapter {
                 if (op == 0)
                     grafo.removeVertice(PopupMenu.selected);
                 if (op == 1) {
-                    // TODO: Aislar los vertices
+                    grafo.aislar(PopupMenu.selected);
                 }
                 panel.repaint();
                 return;
