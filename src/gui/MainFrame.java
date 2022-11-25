@@ -259,7 +259,7 @@ class MyMouseListener extends MouseAdapter {
                     return;
                 }
 
-                grafo.addVertice(new Ciudad(nombre, pais, new Vector2D(evt.getX(), evt.getY())));
+                grafo.addVertice(new Ciudad(nombre, pais, Lienzo.pos(evt.getX(), evt.getY())));
                 panel.repaint();
             }
             if (n == 2) {
