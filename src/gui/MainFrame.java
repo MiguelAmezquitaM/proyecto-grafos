@@ -210,6 +210,11 @@ class MyMouseListener extends MouseAdapter {
                 else if (op == 3) {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
+                    List<String> ciudades = new ArrayList<>();
+                    for (var ciudad : dfsResult){
+                        ciudades.add(ciudad.getNombre());
+                    }
+                    jtext.setText(ciudades.toString());
                 } else if (op == 4) {
                     List<Integer> indexes = masSalidas(grafo);
                     panel.repaint(PopupMenu.rect);
