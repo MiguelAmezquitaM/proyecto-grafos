@@ -106,6 +106,7 @@ class MyMouseListener extends MouseAdapter {
     int nodo1 = -1, nodo2 = -1;
     JPanel panel;
     Graphics2D g;
+    boolean popupmenuopen = false;
 
     private Floyd<Ciudad, Viaje> floyd = null;
 
@@ -169,7 +170,18 @@ class MyMouseListener extends MouseAdapter {
 
         if (evt.getButton() == MouseEvent.BUTTON1) {
             int op = PopupMenu.click(evt.getX(), evt.getY());
-            if (op != -1) {
+            boolean op1 = PopupMenu.click2(evt.getX(), evt.getY());
+            if (op1 == true && popupmenuopen == true){
+                List<Integer> indexes = masSalidas(grafo);
+                panel.repaint(PopupMenu.rect1);
+                for (var index : indexes) {
+                    var city = grafo.getVertice(index);
+                    var p = city.getPosition();
+                    Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
+                }
+                return;
+            }
+            if (op != -1 && popupmenuopen == true) {
                 if (op == 0) {
                     grafo.removeVertice(PopupMenu.selected);
                 }
@@ -204,7 +216,19 @@ class MyMouseListener extends MouseAdapter {
                 } else {
                     panel.repaint();
                 }
-
+                popupmenuopen = false;
+                return;
+            }
+            if (op == -1 && popupmenuopen == true){
+                panel.repaint(PopupMenu.rect);
+                panel.repaint();
+                popupmenuopen = false;
+                return;
+            }
+            if (op1 == false && popupmenuopen == true){
+                panel.repaint(PopupMenu.rect1);
+                panel.repaint();
+                popupmenuopen = false;
                 return;
             }
 
@@ -261,9 +285,16 @@ class MyMouseListener extends MouseAdapter {
             }
         } else if (evt.getButton() == MouseEvent.BUTTON3) {
             var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
-
-            if (ci == -1) return;
-
+        
+            
+            if (ci == -1) {
+                panel.repaint(PopupMenu.rect1);
+                PopupMenu.draw2(evt.getX(), evt.getY(), g);
+                popupmenuopen = true;
+                return;
+            }
+            panel.repaint(PopupMenu.rect);
+            popupmenuopen = true;
             PopupMenu.draw(evt.getX(), evt.getY(), g, ci);
         }
     }
@@ -292,7 +323,7 @@ class MyMouseListener extends MouseAdapter {
     @Override
     public void mouseDragged(MouseEvent e) {
         g = (Graphics2D) panel.getGraphics();
-
+        popupmenuopen = false;
         if (selected == null) {
             Lienzo.moverCamara(e.getX() - oldMousePosition.x, e.getY() - oldMousePosition.y);
             oldMousePosition.x = e.getX();

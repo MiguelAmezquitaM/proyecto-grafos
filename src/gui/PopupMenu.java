@@ -13,7 +13,8 @@ public class PopupMenu {
 
     private static final Rectangle opt = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT);
 
-    static final Rectangle rect = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT * options.length);
+    public static Rectangle rect = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT * options.length);
+    public static Rectangle rect1 = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT);
 
     public static int selected = -1;
 
@@ -33,15 +34,38 @@ public class PopupMenu {
         }
     }
 
+    public static void draw2(int x, int y, Graphics2D g){
+        rect1.x = x; rect1.y = y;
+
+        g.setColor(Color.black);
+        g.fillRect(rect1.x, rect1.y, rect1.width, rect1.height);
+        g.setColor(Color.white);
+
+        g.setFont(font);
+        g.drawRect(rect1.x, rect1.y, OPTION_WIDTH - 1, OPTION_HEIGHT - 1);
+        g.drawString(options[4], rect1.x + 15, rect1.y + OPTION_HEIGHT - (OPTION_HEIGHT - FONT_HEIGHT) / 2);
+    }
+
     public static int click(int x, int y) {
-        if (!rect.contains(x, y)) return -1;
+        if (!rect.contains(x, y)) {
+            return -1;
+        }
 
         for (int i = 0; i < options.length; i++) {
             opt.x = rect.x; opt.y = rect.y + OPTION_HEIGHT * i;
-            if (opt.contains(x, y)) return i;
+            if (opt.contains(x, y)){ 
+                return i;
+            }
         }
 
         return -1;
+    }
+
+    public static boolean click2(int x, int y){       
+        if (!rect1.contains(x,y)) {
+            return false;
+        }
+        return true;
     }
 
 }
