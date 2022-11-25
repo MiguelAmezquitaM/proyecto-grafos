@@ -40,13 +40,13 @@ public class Lienzo {
 
     private static final Font font = new Font("Monospaced", Font.BOLD, 16);
 
-    private static final Color colorCirculo = new Color(209, 242, 235);
+    private static final Color colorCirculo = new Color(253, 254, 254);
 
     private static final Color bordeCirculo = new Color(33, 47, 60);
 
     private static final Color colorTexto = new Color(248, 249, 249);
 
-    private static final Color colorFlecha = new Color(130, 224, 170);
+    private static final Color colorFlecha = new Color(213, 245, 227);
 
     private static final BasicStroke stroke = new BasicStroke(2);
 
