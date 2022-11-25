@@ -57,5 +57,11 @@ public class FloydTest {
 
         floyd = new Floyd<>(g, new DoubleIndicator(), Double.class);
         var r = floyd.getRecorridos();
+        assertEquals(2, r[0][3]);
+        assertEquals(3, r[2][3]);
+        assertEquals(0, r[1][0]);
+        assertEquals(1, r[3][1]);
+        assertEquals(1, r[3][0]);
+        assertEquals(3, r[2][1]);
     }
 }

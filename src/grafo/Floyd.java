@@ -25,7 +25,7 @@ public class Floyd<E, C> {
             for (int j = 0; j < n; j++) {
                 if (i != j) {
                     f[i][j] = grafo.getCosto(i, j);
-                    r[i][j] = -1;
+                    r[i][j] = (f[i][j] == null ? -1 : j);
                 }
             }
         }

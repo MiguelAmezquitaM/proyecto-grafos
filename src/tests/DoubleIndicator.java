@@ -6,7 +6,7 @@ public class DoubleIndicator implements Indicator<Double> {
     @Override
     public Double add(Double o, Double oo) {
         if (o == null || oo == null) return null;
-        return Double.sum(o, oo);
+        return o + oo;
     }
 
     @Override
