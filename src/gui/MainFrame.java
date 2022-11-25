@@ -248,6 +248,7 @@ class MyMouseListener extends MouseAdapter {
                 } catch (Exception e) {
                     nodo1 = nodo2 = -1;
                     n = 0;
+                    panel.repaint();
                     return;
                 }
                 grafo.addCosto(nodo1, nodo2, new Viaje(costo, distancia, tiempo));
