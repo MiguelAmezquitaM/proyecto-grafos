@@ -63,26 +63,27 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                int height = e.getComponent().getHeight()-120;
-                canvas.setSize(e.getComponent().getWidth(),height);
-                resultado.setBounds(0,e.getComponent().getHeight()-120,e.getComponent().getWidth()-30, 70);;
-                jtext.setBounds(10,20,e.getComponent().getWidth()-50,40);
+                int height = e.getComponent().getHeight() - 120;
+                canvas.setSize(e.getComponent().getWidth(), height);
+                resultado.setBounds(0, e.getComponent().getHeight() - 120, e.getComponent().getWidth() - 30, 70);
+                ;
+                jtext.setBounds(10, 20, e.getComponent().getWidth() - 50, 40);
             }
         });
-        
-        
+
         getContentPane().add(resultado);
         setTitle("Proyecto grafos");
         setResizable(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(1200,720));
+        setSize(new Dimension(1200, 720));
         setBackground(new Color(19, 141, 117, 255));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
-        
+
         canvas.setBackground(new java.awt.Color(27, 38, 49, 255));
         jtext.setEnabled(false);
-        jtext.setDisabledTextColor(Color.BLACK);;
+        jtext.setDisabledTextColor(Color.BLACK);
+        
         resultado.setBorder(BorderFactory.createTitledBorder("Resultado"));
         resultado.setLayout(null);
         resultado.add(jtext);
@@ -93,7 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
         canvas.addMouseWheelListener(ml);
         addWindowListener(w1);
         getContentPane().add(canvas);
-        
+
     }
 
     public static void main(String[] args) {
@@ -119,7 +120,7 @@ class MyMouseListener extends MouseAdapter {
     JPanel panel;
     Graphics2D g;
     JTextField jtext;
-    
+
     boolean popupmenuopen = false;
 
     private Floyd<Ciudad, Viaje> floyd = null;
@@ -140,7 +141,7 @@ class MyMouseListener extends MouseAdapter {
                 mayor = grafo.getSucesores(i).size();
                 masSalidas.add(i);
             }
-            if (grafo.getSucesores(i).size() == mayor && !masSalidas.contains(i)){
+            if (grafo.getSucesores(i).size() == mayor && !masSalidas.contains(i)) {
                 masSalidas.add(i);
             }
         }
@@ -157,7 +158,8 @@ class MyMouseListener extends MouseAdapter {
             return null;
         }
         int j = floyd.getRecorridos()[i][pre];
-        if (j == -1) return null;
+        if (j == -1)
+            return null;
         Vector2D c1p = grafo.getVertice(i).getPosition();
         Vector2D c2p = grafo.getVertice(j).getPosition();
         Viaje viaje = grafo.getCosto(i, j);
@@ -186,7 +188,7 @@ class MyMouseListener extends MouseAdapter {
             }
             int op = PopupMenu.click(evt.getX(), evt.getY());
             boolean op1 = PopupMenu.click2(evt.getX(), evt.getY());
-            if (op1 == true && popupmenuopen == true){
+            if (op1 == true && popupmenuopen == true) {
                 List<Integer> indexes = masSalidas(grafo);
                 panel.repaint(PopupMenu.rect1);
                 List<String> ciudades = new ArrayList<>();
@@ -206,8 +208,7 @@ class MyMouseListener extends MouseAdapter {
                     grafo.aislar(PopupMenu.selected);
                 } else if (op == 2) {
                     floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
-                }
-                else if (op == 3) {
+                } else if (op == 3) {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
                 } else if (op == 4) {
@@ -237,12 +238,12 @@ class MyMouseListener extends MouseAdapter {
                 popupmenuopen = false;
                 return;
             }
-            if (op == -1 && popupmenuopen == true){
+            if (op == -1 && popupmenuopen == true) {
                 panel.repaint();
                 popupmenuopen = false;
                 return;
             }
-            if (op1 == false && popupmenuopen == true){
+            if (op1 == false && popupmenuopen == true) {
 
                 panel.repaint();
                 popupmenuopen = false;
@@ -305,8 +306,7 @@ class MyMouseListener extends MouseAdapter {
             }
         } else if (evt.getButton() == MouseEvent.BUTTON3) {
             var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
-        
-            
+
             if (ci == -1) {
                 panel.repaint(PopupMenu.rect1);
                 PopupMenu.draw2(evt.getX(), evt.getY(), g);
@@ -331,7 +331,7 @@ class MyMouseListener extends MouseAdapter {
         }
 
         selected = null;
-        
+
     }
 
     @Override
