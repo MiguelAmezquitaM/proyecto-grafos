@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
 import grafo.DFS;
 import grafo.Floyd;
@@ -56,31 +57,43 @@ public class MainFrame extends javax.swing.JFrame {
             }
         };
 
+        JPanel resultado = new JPanel();
+        JTextField jtext = new JTextField();
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                canvas.setSize(e.getComponent().getSize());
+                int height = e.getComponent().getHeight()-120;
+                canvas.setSize(e.getComponent().getWidth(),height);
+                resultado.setBounds(0,e.getComponent().getHeight()-120,e.getComponent().getWidth()-30, 70);;
+                jtext.setBounds(10,20,e.getComponent().getWidth()-50,40);
             }
         });
-
+        
+        
+        getContentPane().add(resultado);
         setTitle("Proyecto grafos");
         setResizable(true);
-        setLayout(new GridLayout(1, 1));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(1200, 720);
+        setSize(new Dimension(1200,720));
         setBackground(new Color(19, 141, 117, 255));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        canvas.setBounds(new Rectangle(0, 0, 1200, 720));
+        getContentPane().setLayout(null);
+        
         canvas.setBackground(new java.awt.Color(27, 38, 49, 255));
-
-        MouseAdapter ml = new MyMouseListener(canvas, grafo);
+        jtext.setEnabled(false);
+        jtext.setDisabledTextColor(Color.BLACK);;
+        resultado.setBorder(BorderFactory.createTitledBorder("Resultado"));
+        resultado.setLayout(null);
+        resultado.add(jtext);
+        MouseAdapter ml = new MyMouseListener(canvas, jtext, grafo);
         WindowAdapter w1 = new MyWindowListener(archivoProyecto, grafo);
         canvas.addMouseListener(ml);
         canvas.addMouseMotionListener(ml);
         canvas.addMouseWheelListener(ml);
         addWindowListener(w1);
-        add(canvas);
+        getContentPane().add(canvas);
+        
     }
 
     public static void main(String[] args) {
@@ -106,15 +119,18 @@ class MyMouseListener extends MouseAdapter {
     int nodo1 = -1, nodo2 = -1;
     JPanel panel;
     Graphics2D g;
+    JTextField jtext;
+    
     boolean popupmenuopen = false;
 
     private Floyd<Ciudad, Viaje> floyd = null;
 
     private List<Ciudad> dfsResult = null;
 
-    public MyMouseListener(JPanel panel, Grafo<Ciudad, Viaje> grafo) {
+    public MyMouseListener(JPanel panel, JTextField jtext, Grafo<Ciudad, Viaje> grafo) {
         this.grafo = grafo;
         this.panel = panel;
+        this.jtext = jtext;
     }
 
     public List<Integer> masSalidas(Grafo<Ciudad,Viaje> grafo) {
@@ -123,32 +139,32 @@ class MyMouseListener extends MouseAdapter {
         for (int i = 0; i < grafo.orden(); i++) {
             if (grafo.getSucesores(i).size() > mayor) {
                 mayor = grafo.getSucesores(i).size();
-                masSalidas.clear();
                 masSalidas.add(i);
             }
-            if (grafo.getSucesores(i).size() == mayor) {
+            if (grafo.getSucesores(i).size() == mayor && !masSalidas.contains(i)){
                 masSalidas.add(i);
             }
         }
         return masSalidas;
     }
 
-    private void drawPath(int i, int destiny) {
+    private Viaje drawPath(int i, int destiny) {
         if (i == destiny) {
-            return;
+            return null;
         }
         int pre = floyd.getRecorridos()[i][destiny];
         if (pre == -1) {
             JOptionPane.showMessageDialog(panel, "No existe una ruta");
-            return;
+            return null;
         }
         int j = floyd.getRecorridos()[i][pre];
-        if (j == -1) return;
+        if (j == -1) return null;
         Vector2D c1p = grafo.getVertice(i).getPosition();
         Vector2D c2p = grafo.getVertice(j).getPosition();
         Viaje viaje = grafo.getCosto(i, j);
         Lienzo.pintarFlecha(g, c1p.x, c1p.y, c2p.x, c2p.y, viaje, Color.red);
         drawPath(j, destiny);
+        return floyd.getMinimasDistancias()[i][destiny];
     }
 
     @Override
@@ -162,8 +178,7 @@ class MyMouseListener extends MouseAdapter {
                 return;
             }
 
-            drawPath(PopupMenu.selected, destiny);
-
+            jtext.setText(drawPath(PopupMenu.selected, destiny).toString());
             floyd = null;
             return;
         }
@@ -174,11 +189,14 @@ class MyMouseListener extends MouseAdapter {
             if (op1 == true && popupmenuopen == true){
                 List<Integer> indexes = masSalidas(grafo);
                 panel.repaint(PopupMenu.rect1);
+                List<String> ciudades = new ArrayList<>();
                 for (var index : indexes) {
                     var city = grafo.getVertice(index);
                     var p = city.getPosition();
+                    ciudades.add(city.getNombre());
                     Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
                 }
+                jtext.setText(ciudades.toString());
                 return;
             }
             if (op != -1 && popupmenuopen == true) {
@@ -190,6 +208,7 @@ class MyMouseListener extends MouseAdapter {
                 }
                 else if (op == 2) {
                     floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
+                    
                 }
                 else if (op == 3) {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
@@ -198,11 +217,14 @@ class MyMouseListener extends MouseAdapter {
                 else if (op == 4) {
                     List<Integer> indexes = masSalidas(grafo);
                     panel.repaint(PopupMenu.rect);
+                    List<String> ciudades = new ArrayList<>();
                     for (var index : indexes) {
                         var city = grafo.getVertice(index);
                         var p = city.getPosition();
+                        ciudades.add(city.getNombre());
                         Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
                     }
+                    jtext.setText(ciudades.toString());
                     return;
                 }
 
@@ -220,13 +242,12 @@ class MyMouseListener extends MouseAdapter {
                 return;
             }
             if (op == -1 && popupmenuopen == true){
-                panel.repaint(PopupMenu.rect);
                 panel.repaint();
                 popupmenuopen = false;
                 return;
             }
             if (op1 == false && popupmenuopen == true){
-                panel.repaint(PopupMenu.rect1);
+
                 panel.repaint();
                 popupmenuopen = false;
                 return;
