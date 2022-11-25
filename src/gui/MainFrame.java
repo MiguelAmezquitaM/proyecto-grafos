@@ -5,7 +5,6 @@
 package gui;
 
 import datos.Ciudad;
-import datos.TimeIndicator;
 import datos.Viaje;
 
 import java.awt.*;
@@ -13,12 +12,9 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.*;
 
-import grafo.DFS;
-import grafo.Floyd;
 import grafo.Grafo;
 import grafo.GrafoD;
 import gui.util.Vector2D;
@@ -41,7 +37,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    private void initComponents() throws ClassNotFoundException, IOException {
+    private void initComponents() throws FileNotFoundException, ClassNotFoundException, IOException {
         ArchivoProyecto archivoProyecto = new ArchivoProyecto();
         File f = new File("grafo.obj");
         grafo = f.exists() ? archivoProyecto.read() : grafo;
@@ -109,74 +105,23 @@ class MyMouseListener extends MouseAdapter {
     JPanel panel;
     Graphics2D g;
 
-    private Floyd<Ciudad, Viaje> floyd = null;
-
-    private List<Ciudad> dfsResult = null;
-
     public MyMouseListener(JPanel panel, Grafo<Ciudad, Viaje> grafo) {
         this.grafo = grafo;
         this.panel = panel;
     }
 
-    private void drawPath(int i, int destiny) {
-        if (i == destiny) {
-            return;
-        }
-        int pre = floyd.getRecorridos()[i][destiny];
-        if (pre == -1) return;
-        int j = floyd.getRecorridos()[i][pre];
-        if (j == -1) return;
-        Vector2D c1p = grafo.getVertice(i).getPosition();
-        Vector2D c2p = grafo.getVertice(j).getPosition();
-        Viaje viaje = grafo.getCosto(i, j);
-        Lienzo.pintarFlecha(g, c1p.x, c1p.y, c2p.x, c2p.y, viaje, Color.red);
-        drawPath(j, destiny);
-    }
-
     @Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         g = (Graphics2D) panel.getGraphics();
-
-        if (floyd != null) {
-            int destiny = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
-            if (destiny == -1) {
-                floyd = null;
-                return;
-            }
-
-            drawPath(PopupMenu.selected, destiny);
-
-            floyd = null;
-            return;
-        }
-
         if (evt.getButton() == MouseEvent.BUTTON1) {
             int op = PopupMenu.click(evt.getX(), evt.getY());
             if (op != -1) {
-                if (op == 0) {
+                if (op == 0)
                     grafo.removeVertice(PopupMenu.selected);
-                }
-                else if (op == 1) {
+                if (op == 1) {
                     grafo.aislar(PopupMenu.selected);
                 }
-                else if (op == 2) {
-                    floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
-                }
-                else if (op == 3) {
-                    DFS<Ciudad, Viaje> dfs = new DFS<>();
-                    dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
-                }
-
-                if (dfsResult != null) {
-                    for (var ciudad: dfsResult) {
-                        var p = ciudad.getPosition();
-                        Lienzo.pintarCirculo(g, ciudad.getNombre(), p.x, p.y, Color.red);
-                    }
-                    panel.repaint(PopupMenu.rect);
-                } else {
-                    panel.repaint();
-                }
-
+                panel.repaint();
                 return;
             }
 
@@ -241,6 +186,7 @@ class MyMouseListener extends MouseAdapter {
     }
 
     @Override
+
     public void mousePressed(MouseEvent e) {
         oldMousePosition.x = e.getX();
         oldMousePosition.y = e.getY();
@@ -291,8 +237,8 @@ class MyMouseListener extends MouseAdapter {
 }
 
 class MyWindowListener extends WindowAdapter {
-    ArchivoProyecto ar;
-    private final Grafo<Ciudad, Viaje> grafo;
+    ArchivoProyecto ar = new ArchivoProyecto();
+    private Grafo<Ciudad, Viaje> grafo;
 
     public MyWindowListener(ArchivoProyecto archivoProyecto, Grafo<Ciudad, Viaje> grafo) {
         this.ar = archivoProyecto;
