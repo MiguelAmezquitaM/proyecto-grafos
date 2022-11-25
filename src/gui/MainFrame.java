@@ -37,6 +37,16 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    public int masSalidas(Grafo<Ciudad,Viaje> grafo){
+        int mayor = -1;
+        for (int i = 0; i < grafo.orden(); i++) {
+            if (grafo.getSucesores(i).size() > mayor) {
+                mayor = grafo.getSucesores(i).size();
+            }
+        }
+        return mayor;
+    }
+
     private void initComponents() throws FileNotFoundException, ClassNotFoundException, IOException {
         ArchivoProyecto archivoProyecto = new ArchivoProyecto();
         File f = new File("grafo.obj");
@@ -79,6 +89,8 @@ public class MainFrame extends javax.swing.JFrame {
         addWindowListener(w1);
         add(canvas);
         add(menu);
+
+        
     }
 
     public static void main(String[] args) {
