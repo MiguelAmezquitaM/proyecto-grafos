@@ -13,6 +13,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -41,16 +42,6 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public int masSalidas(Grafo<Ciudad,Viaje> grafo){
-        int mayor = -1;
-        for (int i = 0; i < grafo.orden(); i++) {
-            if (grafo.getSucesores(i).size() > mayor) {
-                mayor = grafo.getSucesores(i).size();
-            }
-        }
-        return mayor;
-    }
-
     private void initComponents() throws FileNotFoundException, ClassNotFoundException, IOException {
         ArchivoProyecto archivoProyecto = new ArchivoProyecto();
         File f = new File("grafo.obj");
@@ -65,8 +56,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         };
 
-        JPanel menu = new JPanel();
-
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -77,13 +66,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         setTitle("Proyecto grafos");
         setResizable(true);
-        setLayout(new GridLayout(1, 2));
+        setLayout(new GridLayout(1, 1));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1200, 720);
         setBackground(new Color(19, 141, 117, 255));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         canvas.setBounds(new Rectangle(0, 0, 1200, 720));
-        canvas.setBackground(new java.awt.Color(30, 132, 73, 255));
+        canvas.setBackground(new java.awt.Color(27, 38, 49, 255));
 
         MouseAdapter ml = new MyMouseListener(canvas, grafo);
         WindowAdapter w1 = new MyWindowListener(archivoProyecto, grafo);
@@ -92,7 +81,6 @@ public class MainFrame extends javax.swing.JFrame {
         canvas.addMouseWheelListener(ml);
         addWindowListener(w1);
         add(canvas);
-        add(menu);
     }
 
     public static void main(String[] args) {
@@ -128,12 +116,31 @@ class MyMouseListener extends MouseAdapter {
         this.panel = panel;
     }
 
+    public List<Integer> masSalidas(Grafo<Ciudad,Viaje> grafo) {
+        List<Integer> masSalidas = new ArrayList<>();
+        int mayor = -1;
+        for (int i = 0; i < grafo.orden(); i++) {
+            if (grafo.getSucesores(i).size() > mayor) {
+                mayor = grafo.getSucesores(i).size();
+                masSalidas.clear();
+                masSalidas.add(i);
+            }
+            if (grafo.getSucesores(i).size() == mayor) {
+                masSalidas.add(i);
+            }
+        }
+        return masSalidas;
+    }
+
     private void drawPath(int i, int destiny) {
         if (i == destiny) {
             return;
         }
         int pre = floyd.getRecorridos()[i][destiny];
-        if (pre == -1) return;
+        if (pre == -1) {
+            JOptionPane.showMessageDialog(panel, "No existe una ruta");
+            return;
+        }
         int j = floyd.getRecorridos()[i][pre];
         if (j == -1) return;
         Vector2D c1p = grafo.getVertice(i).getPosition();
@@ -176,12 +183,23 @@ class MyMouseListener extends MouseAdapter {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
                 }
+                else if (op == 4) {
+                    List<Integer> indexes = masSalidas(grafo);
+                    panel.repaint(PopupMenu.rect);
+                    for (var index : indexes) {
+                        var city = grafo.getVertice(index);
+                        var p = city.getPosition();
+                        Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
+                    }
+                    return;
+                }
 
                 if (dfsResult != null) {
                     for (var ciudad: dfsResult) {
                         var p = ciudad.getPosition();
                         Lienzo.pintarCirculo(g, ciudad.getNombre(), p.x, p.y, Color.red);
                     }
+                    dfsResult = null;
                     panel.repaint(PopupMenu.rect);
                 } else {
                     panel.repaint();
