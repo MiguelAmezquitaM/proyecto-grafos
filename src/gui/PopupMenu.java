@@ -8,12 +8,12 @@ public class PopupMenu {
     final static int FONT_HEIGHT = 18;
 
     final static String[] options = new String[] {
-            "Eliminar", "Aislar"
+            "Eliminar", "Aislar", "Ruta minima", "Destinos"
     };
 
-    private static Rectangle opt = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT);
+    private static final Rectangle opt = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT);
 
-    private static Rectangle rect = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT * options.length);
+    static final Rectangle rect = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT * options.length);
 
     public static int selected = -1;
 
@@ -28,7 +28,7 @@ public class PopupMenu {
 
         g.setFont(font);
         for (int i = 0; i < options.length; i++) {
-            g.drawRect(rect.x, rect.y + i * OPTION_HEIGHT, OPTION_WIDTH, OPTION_HEIGHT);
+            g.drawRect(rect.x, rect.y + i * OPTION_HEIGHT, OPTION_WIDTH - 1, OPTION_HEIGHT - 1);
             g.drawString(options[i], rect.x + 15, rect.y + (i + 1) * OPTION_HEIGHT - (OPTION_HEIGHT - FONT_HEIGHT) / 2);
         }
     }
