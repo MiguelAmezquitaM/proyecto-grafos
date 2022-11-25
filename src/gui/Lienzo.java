@@ -72,7 +72,7 @@ public class Lienzo {
         for (int i = 0; i < grafo.orden(); i++) {
             var c = grafo.getVertice(i);
             var cp = c.getPosition();
-            pintarCirculo(g, c.getNombre(), cp.x, cp.y);
+            pintarCirculo(g, c.getNombre(), cp.x, cp.y, colorCirculo);
             for (int j = 0; j < grafo.orden(); j++) {
                 var ccost = grafo.getCosto(i, j);
 
@@ -84,17 +84,17 @@ public class Lienzo {
 
                 var ccp = grafo.getVertice(j).getPosition();
 
-                flechas.put(i + j * grafo.orden(), pintarFlechaImpl(g, cp.x, cp.y, ccp.x, ccp.y, ccost, colorFlecha));
+                flechas.put(i + j * grafo.orden(), pintarFlecha(g, cp.x, cp.y, ccp.x, ccp.y, ccost, colorFlecha));
             }
         }
         modified.clear();
     }
 
-    public static void pintarCirculo(Graphics2D g, String nombre, int x, int y) {
+    public static void pintarCirculo(Graphics2D g, String nombre, int x, int y, Color color) {
         x += camera.x; y += camera.y;
         x *= scale; y *= scale;
 
-        g.setColor(colorCirculo);
+        g.setColor(color);
         g.fillOval(x, y, radio, radio);
 
         g.setColor(bordeCirculo);
@@ -117,7 +117,7 @@ public class Lienzo {
         g.drawString(f.cost.toString(), f.StrPos.x, f.StrPos.y);
     }
 
-    private static Flecha pintarFlechaImpl(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v, Color c) {
+    public static Flecha pintarFlecha(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v, Color c) {
         g.setColor(c);
         g.setStroke(stroke);
         // Matematicas
