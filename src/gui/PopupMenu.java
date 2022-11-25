@@ -61,11 +61,8 @@ public class PopupMenu {
         return -1;
     }
 
-    public static boolean click2(int x, int y){       
-        if (!rect1.contains(x,y)) {
-            return false;
-        }
-        return true;
+    public static boolean click2(int x, int y){
+        return rect1.contains(x, y);
     }
 
 }

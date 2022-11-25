@@ -32,18 +32,11 @@ import persist.ArchivoProyecto;
 public class MainFrame extends javax.swing.JFrame {
     Grafo<Ciudad, Viaje> grafo = new GrafoD<>();
 
-    /**
-     * Creates new form MainFrame
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws FileNotFoundException
-     */
-    public MainFrame() throws FileNotFoundException, ClassNotFoundException, IOException {
+    public MainFrame() throws ClassNotFoundException, IOException {
         initComponents();
     }
 
-    private void initComponents() throws FileNotFoundException, ClassNotFoundException, IOException {
+    private void initComponents() throws ClassNotFoundException, IOException {
         ArchivoProyecto archivoProyecto = new ArchivoProyecto();
         File f = new File("grafo.obj");
         grafo = f.exists() ? archivoProyecto.read() : grafo;
@@ -66,7 +59,6 @@ public class MainFrame extends javax.swing.JFrame {
                 int height = e.getComponent().getHeight() - 120;
                 canvas.setSize(e.getComponent().getWidth(), height);
                 resultado.setBounds(0, e.getComponent().getHeight() - 120, e.getComponent().getWidth() - 30, 70);
-                ;
                 jtext.setBounds(10, 20, e.getComponent().getWidth() - 50, 40);
             }
         });
@@ -152,14 +144,11 @@ class MyMouseListener extends MouseAdapter {
         if (i == destiny) {
             return null;
         }
-        int pre = floyd.getRecorridos()[i][destiny];
-        if (pre == -1) {
+        int j = floyd.getRecorridos()[i][destiny];
+        if (j == -1) {
             JOptionPane.showMessageDialog(panel, "No existe una ruta");
             return null;
         }
-        int j = floyd.getRecorridos()[i][pre];
-        if (j == -1)
-            return null;
         Vector2D c1p = grafo.getVertice(i).getPosition();
         Vector2D c2p = grafo.getVertice(j).getPosition();
         Viaje viaje = grafo.getCosto(i, j);
@@ -176,19 +165,20 @@ class MyMouseListener extends MouseAdapter {
 
         if (evt.getButton() == MouseEvent.BUTTON1) {
             if (floyd != null) {
-                int destiny = nodoClickeado;
-                if (destiny == -1) {
+                if (nodoClickeado == -1) {
                     floyd = null;
                     return;
                 }
 
-                jtext.setText(drawPath(PopupMenu.selected, destiny).toString());
+                var viaje = drawPath(PopupMenu.selected, nodoClickeado);
+                if (viaje != null)
+                    jtext.setText(viaje.toString());
                 floyd = null;
                 return;
             }
             int op = PopupMenu.click(evt.getX(), evt.getY());
             boolean op1 = PopupMenu.click2(evt.getX(), evt.getY());
-            if (op1 == true && popupmenuopen == true) {
+            if (op1 && popupmenuopen) {
                 List<Integer> indexes = masSalidas(grafo);
                 panel.repaint(PopupMenu.rect1);
                 List<String> ciudades = new ArrayList<>();
@@ -199,9 +189,8 @@ class MyMouseListener extends MouseAdapter {
                     Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
                 }
                 jtext.setText(ciudades.toString());
-                return;
             }
-            if (op != -1 && popupmenuopen == true) {
+            else if (op != -1 && popupmenuopen) {
                 if (op == 0) {
                     grafo.removeVertice(PopupMenu.selected);
                 } else if (op == 1) {
@@ -243,31 +232,29 @@ class MyMouseListener extends MouseAdapter {
                 popupmenuopen = false;
                 return;
             }
-            if (op == -1 && popupmenuopen == true) {
+            if (op == -1 && popupmenuopen) {
                 panel.repaint();
                 popupmenuopen = false;
                 return;
             }
-            if (op1 == false && popupmenuopen == true) {
-
+            if (popupmenuopen) {
                 panel.repaint();
                 popupmenuopen = false;
                 return;
             }
 
             boolean haynodo = false;
-            var ci = nodoClickeado;
 
-            if (ci != -1) {
-                var c = grafo.getVertice(ci);
+            if (nodoClickeado != -1) {
+                var c = grafo.getVertice(nodoClickeado);
                 var p = c.getPosition();
                 Lienzo.clickSobreNodo(g, p.x, p.y, Color.green);
                 haynodo = true;
                 n++;
                 if (nodo1 == -1 && nodo2 == -1) {
-                    nodo1 = ci;
+                    nodo1 = nodoClickeado;
                 } else {
-                    nodo2 = ci;
+                    nodo2 = nodoClickeado;
                 }
             }
 
@@ -318,7 +305,6 @@ class MyMouseListener extends MouseAdapter {
                 popupmenuopen = true;
                 return;
             }
-            panel.repaint(PopupMenu.rect);
             popupmenuopen = true;
             PopupMenu.draw(evt.getX(), evt.getY(), g, ci);
         }
