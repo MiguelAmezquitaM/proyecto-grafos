@@ -46,12 +46,14 @@ public class MainFrame extends javax.swing.JFrame {
         ArchivoProyecto archivoProyecto = new ArchivoProyecto();
         File f = new File("grafo.obj");
         grafo = f.exists() ? archivoProyecto.read() : grafo;
+        
+        ManejoEntidades mEntidades = new ManejoEntidades();
 
         JPanel canvas = new JPanel() {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                Lienzo.dibujarGrafo((Graphics2D) g, grafo);
+                mEntidades.pintar();
                 g.dispose();
             }
         };
@@ -64,6 +66,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+
+        Camera camera = new Camera();
+
+        ELienzo lienzo = new ELienzo(canvas, mEntidades, grafo, camera);
+
+        lienzo.setZIndex(2);
+
+        mEntidades.registrar(lienzo);
+
+
         setTitle("Proyecto grafos");
         setResizable(true);
         setLayout(new GridLayout(1, 1));
@@ -74,11 +86,10 @@ public class MainFrame extends javax.swing.JFrame {
         canvas.setBounds(new Rectangle(0, 0, 1200, 720));
         canvas.setBackground(new java.awt.Color(27, 38, 49, 255));
 
-        MouseAdapter ml = new MyMouseListener(canvas, grafo);
         WindowAdapter w1 = new MyWindowListener(archivoProyecto, grafo);
-        canvas.addMouseListener(ml);
-        canvas.addMouseMotionListener(ml);
-        canvas.addMouseWheelListener(ml);
+        canvas.addMouseListener(mEntidades);
+        canvas.addMouseMotionListener(mEntidades);
+        canvas.addMouseWheelListener(mEntidades);
         addWindowListener(w1);
         add(canvas);
     }

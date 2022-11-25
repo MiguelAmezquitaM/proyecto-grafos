@@ -27,6 +27,8 @@ class Flecha {
         this.StrPos = StrPos;
         this.cost = cost;
     }
+
+    public Flecha() {}
 }
 
 /**
