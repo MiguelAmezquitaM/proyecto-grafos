@@ -114,7 +114,7 @@ public class Lienzo {
         g.drawLine(f.A.x, f.A.y, f.A.x + f.R1.x, f.A.y + f.R1.y);
         g.drawLine(f.A.x, f.A.y, f.A.x + f.R2.x , f.A.y + f.R2.y);
         g.setFont(font);
-        g.drawString(f.cost.toString(), f.StrPos.x, f.StrPos.y);
+        g.drawString(f.cost.getTiempo() + " h", f.StrPos.x, f.StrPos.y);
     }
 
     public static Flecha pintarFlecha(Graphics2D g, int x1, int y1, int x2, int y2, Viaje v, Color c) {
@@ -166,7 +166,7 @@ public class Lienzo {
 
         var StrPos = new Vector2D(ABm.x + (int)(25.0 * ABup.x), ABm.y + (int)(25.0 * ABup.y));
 
-        g.drawString(v.toString(), StrPos.x, StrPos.y);
+        g.drawString(v.getTiempo() + " h", StrPos.x, StrPos.y);
 
         var R1 = new Vector2D(r1.x, r1.y);
         var R2 = new Vector2D(r2.x, r2.y);
