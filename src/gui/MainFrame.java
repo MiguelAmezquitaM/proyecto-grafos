@@ -204,6 +204,7 @@ class MyMouseListener extends MouseAdapter {
                     grafo.aislar(PopupMenu.selected);
                 } else if (op == 2) {
                     floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
+                    jtext.setText("Selecciona una ciudad como destino!");
                 } else if (op == 3) {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
