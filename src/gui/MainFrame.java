@@ -129,6 +129,7 @@ class MyMouseListener extends MouseAdapter {
         for (int i = 0; i < grafo.orden(); i++) {
             if (grafo.getSucesores(i).size() > mayor) {
                 mayor = grafo.getSucesores(i).size();
+                masSalidas.clear();
                 masSalidas.add(i);
             }
             if (grafo.getSucesores(i).size() == mayor && !masSalidas.contains(i)) {
@@ -185,7 +186,6 @@ class MyMouseListener extends MouseAdapter {
             boolean op1 = PopupMenu.click2(evt.getX(), evt.getY());
             if (op1 && popupmenuopen) {
                 List<Integer> indexes = masSalidas(grafo);
-                panel.repaint(PopupMenu.rect1);
                 List<String> ciudades = new ArrayList<>();
                 for (var index : indexes) {
                     var city = grafo.getVertice(index);
@@ -193,7 +193,9 @@ class MyMouseListener extends MouseAdapter {
                     ciudades.add(city.getNombre());
                     Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
                 }
+                panel.repaint(PopupMenu.rect1);
                 jtext.setText(ciudades.toString());
+                return;
             }
             else if (op != -1 && popupmenuopen) {
                 if (op == 0) {
@@ -204,7 +206,7 @@ class MyMouseListener extends MouseAdapter {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
                     List<String> ciudades = new ArrayList<>();
-                    for (var ciudad : dfsResult){
+                    for (var ciudad : dfsResult) {
                         ciudades.add(ciudad.getNombre());
                     }
                     jtext.setText(ciudades.toString());
