@@ -144,14 +144,21 @@ class MyMouseListener extends MouseAdapter {
         if (i == destiny) {
             return null;
         }
+
         int j = floyd.getRecorridos()[i][destiny];
         if (j == -1) {
             JOptionPane.showMessageDialog(panel, "No existe una ruta");
             return null;
         }
+
+        Viaje viaje = grafo.getCosto(i, j);
+        while (viaje == null) {
+            j = floyd.getRecorridos()[i][j];
+            viaje = grafo.getCosto(i, j);
+        }
+
         Vector2D c1p = grafo.getVertice(i).getPosition();
         Vector2D c2p = grafo.getVertice(j).getPosition();
-        Viaje viaje = grafo.getCosto(i, j);
         Lienzo.pintarFlecha(g, c1p.x, c1p.y, c2p.x, c2p.y, viaje, Color.red);
         drawPath(j, destiny);
         return floyd.getMinimasDistancias()[i][destiny];
