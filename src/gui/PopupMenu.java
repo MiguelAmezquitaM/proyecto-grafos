@@ -3,12 +3,12 @@ package gui;
 import java.awt.*;
 
 public class PopupMenu {
-    final static int OPTION_HEIGHT = 50;
-    final static int OPTION_WIDTH = 150;
-    final static int FONT_HEIGHT = 18;
+    final static int OPTION_HEIGHT = 40;
+    final static int OPTION_WIDTH = 200;
+    final static int FONT_HEIGHT = 16;
 
     final static String[] options = new String[] {
-            "Eliminar", "Aislar", "Ruta minima", "Destinos", "Mas salidas"
+            "Eliminar", "Aislar", "Destinos", "Tiempo minimo", "Distancia minima", "Costo minimo"
     };
 
     private static final Rectangle opt = new Rectangle(OPTION_WIDTH, OPTION_HEIGHT);
@@ -18,7 +18,7 @@ public class PopupMenu {
 
     public static int selected = -1;
 
-    private static final Font font = new Font(Font.MONOSPACED, Font.PLAIN, FONT_HEIGHT);
+    private static final Font font = new Font(Font.MONOSPACED, Font.BOLD, FONT_HEIGHT);
 
     public static void draw(int x, int y, Graphics2D g, int idx) {
         rect.x = x; rect.y = y; selected = idx;
@@ -43,7 +43,7 @@ public class PopupMenu {
 
         g.setFont(font);
         g.drawRect(rect1.x, rect1.y, OPTION_WIDTH - 1, OPTION_HEIGHT - 1);
-        g.drawString(options[4], rect1.x + 15, rect1.y + OPTION_HEIGHT - (OPTION_HEIGHT - FONT_HEIGHT) / 2);
+        g.drawString("Mas Salidas", rect1.x + 15, rect1.y + OPTION_HEIGHT - (OPTION_HEIGHT - FONT_HEIGHT) / 2);
     }
 
     public static int click(int x, int y) {

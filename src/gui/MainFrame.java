@@ -4,9 +4,7 @@
  */
 package gui;
 
-import datos.Ciudad;
-import datos.TimeIndicator;
-import datos.Viaje;
+import datos.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -203,9 +201,6 @@ class MyMouseListener extends MouseAdapter {
                 } else if (op == 1) {
                     grafo.aislar(PopupMenu.selected);
                 } else if (op == 2) {
-                    floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
-                    jtext.setText("Selecciona una ciudad como destino!");
-                } else if (op == 3) {
                     DFS<Ciudad, Viaje> dfs = new DFS<>();
                     dfsResult = dfs.recorridoDFS(grafo, PopupMenu.selected);
                     List<String> ciudades = new ArrayList<>();
@@ -213,18 +208,15 @@ class MyMouseListener extends MouseAdapter {
                         ciudades.add(ciudad.getNombre());
                     }
                     jtext.setText(ciudades.toString());
+                } else if (op == 3) {
+                    floyd = new Floyd<>(grafo, new TimeIndicator(), Viaje.class);
+                    jtext.setText("Selecciona una ciudad como destino!");
                 } else if (op == 4) {
-                    List<Integer> indexes = masSalidas(grafo);
-                    panel.repaint(PopupMenu.rect);
-                    List<String> ciudades = new ArrayList<>();
-                    for (var index : indexes) {
-                        var city = grafo.getVertice(index);
-                        var p = city.getPosition();
-                        ciudades.add(city.getNombre());
-                        Lienzo.pintarCirculo(g, city.getNombre(), p.x, p.y, Color.red);
-                    }
-                    jtext.setText(ciudades.toString());
-                    return;
+                    floyd = new Floyd<>(grafo, new DistanceIndicator(), Viaje.class);
+                    jtext.setText("Selecciona una ciudad como destino!");
+                } else if (op == 5) {
+                    floyd = new Floyd<>(grafo, new CostIndicator(), Viaje.class);
+                    jtext.setText("Selecciona una ciudad como destino!");
                 }
 
                 if (dfsResult != null) {
