@@ -300,7 +300,6 @@ class MyMouseListener extends MouseAdapter {
             var ci = Lienzo.hayCiudadEn(grafo, evt.getX(), evt.getY());
 
             if (ci == -1) {
-                panel.repaint(PopupMenu.rect1);
                 PopupMenu.draw2(evt.getX(), evt.getY(), g);
                 popupmenuopen = true;
                 return;
