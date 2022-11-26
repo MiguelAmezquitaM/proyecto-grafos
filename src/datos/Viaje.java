@@ -41,6 +41,10 @@ public class Viaje implements Serializable{
 
     @Override
     public String toString() {
-        return "C: " + costo.intValue() + " D: " + distancia.intValue() + " T:" + tiempo;
+        return "Viaje{" +
+                "costo=" + costo +
+                ", distancia=" + distancia +
+                ", tiempo=" + tiempo +
+                '}';
     }
 }
